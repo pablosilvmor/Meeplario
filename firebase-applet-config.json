@@ -1,10 +1,9 @@
 {
-  "projectId": "programacapacitacoes",
-  "appId": "1:978088352705:web:eea4196318639b854a6d40",
-  "apiKey": "AIzaSyD5haY5jSPMwc1R0mSGGT6be0sOxFtJzCE",
-  "authDomain": "programacapacitacoes.firebaseapp.com",
+  "projectId": "meplarios",
+  "appId": "1:305234805665:web:a958b96ee9eeee227e41e0",
+  "apiKey": "AIzaSyDrtq9uTqVh4b4lcJzp5o8-Gb-eNch-u58",
+  "authDomain": "meplarios.firebaseapp.com",
   "firestoreDatabaseId": "ai-studio-44511946-2813-45a4-bf43-f2c3ee0225c2",
-  "storageBucket": "programacapacitacoes.firebasestorage.app",
-  "messagingSenderId": "978088352705",
-  "measurementId": ""
+  "storageBucket": "meplarios.firebasestorage.app",
+  "messagingSenderId": "305234805665"
 }
