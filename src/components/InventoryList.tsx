@@ -36,8 +36,7 @@ export function InventoryList({ sector }: InventoryListProps) {
   const itemsRef = collection(db, "items");
   const q = query(
     itemsRef,
-    where("sectorId", "==", sector),
-    orderBy("name", "asc"),
+    where("sectorId", "==", sector)
   );
 
   const [value, loading, error] = useCollection(q);
@@ -52,7 +51,8 @@ export function InventoryList({ sector }: InventoryListProps) {
   }
 
   const items =
-    value?.docs.map((d) => ({ id: d.id, ...d.data() }) as Item) || [];
+    value?.docs.map((d) => ({ id: d.id, ...d.data() }) as Item)
+      .sort((a, b) => a.name.localeCompare(b.name)) || [];
 
   const filteredItems = items.filter((i) =>
     i.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -517,9 +517,6 @@ function ItemCard({
           <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner">
             <span className="material-symbols-outlined text-[18px]">{item.icon || 'inventory_2'}</span>
           </div>
-          <span className="font-mono text-[9px] bg-surface-container-highest px-2 py-1 rounded text-tertiary-fixed border border-outline-variant/20 tracking-wider">
-            SLOT_{item.id.slice(-4).toUpperCase()}
-          </span>
         </div>
         <button
           onClick={onEdit}

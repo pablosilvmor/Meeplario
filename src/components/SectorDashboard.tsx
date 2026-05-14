@@ -227,12 +227,7 @@ function SectorCard({
         </div>
       </div>
 
-      {/* Decorative Icons In Background */}
-      <div className="absolute top-0 right-0 p-2 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity">
-        <span className="material-symbols-outlined text-8xl rotate-12">
-          {icon === "priority_high" ? "scroll" : icon}
-        </span>
-      </div>
+      {/* Decorative Icons In Background removed as per user report of overlapping text */}
     </motion.div>
   );
 }

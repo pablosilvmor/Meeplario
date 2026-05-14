@@ -365,11 +365,6 @@ export function ShoppingList() {
 
       {cart.length > 0 && (
         <div className="glass-panel border border-primary/20 rounded-xl p-6 relative overflow-hidden mt-12 bg-gradient-to-br from-primary-container/10 to-transparent">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <span className="material-symbols-outlined text-[80px]">
-              receipt_long
-            </span>
-          </div>
           <h3 className="font-mono text-[10px] text-primary tracking-widest uppercase mb-4">
             Pedido de Compra Pendente
           </h3>

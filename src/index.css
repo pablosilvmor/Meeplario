@@ -83,5 +83,10 @@
 }
 
 .material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  text-transform: none !important;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
 }

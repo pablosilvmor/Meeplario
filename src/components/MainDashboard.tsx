@@ -88,11 +88,11 @@ export function MainDashboard() {
   return (
     <div className="min-h-screen pb-32">
       {/* TopAppBar */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-outline-variant/30 flex justify-between items-center w-full px-5 py-4">
-        <div className="flex items-center gap-4">
+      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-outline-variant/30 flex justify-between items-center w-full px-5 py-3">
+        <div className="flex items-center gap-3">
+          <img src="https://i.imgur.com/6w277DR.jpeg" className="w-10 h-10 rounded-xl object-cover shadow-lg border border-outline-variant/30" alt="Logo" />
           <div className="flex flex-col">
-            <h1 className="flex items-center gap-2 font-display text-xl md:text-2xl uppercase tracking-widest text-primary-container drop-shadow-[0_0_8px_rgba(255,107,0,0.5)]">
-              <img src="https://i.imgur.com/6w277DR.jpeg" className="w-8 h-8 rounded-lg" alt="Logo" />
+            <h1 className="font-display text-xl md:text-2xl uppercase tracking-widest text-primary-container drop-shadow-[0_0_8px_rgba(255,107,0,0.5)] leading-tight">
               Meeplário
             </h1>
             <p className="font-sans text-[9px] text-on-surface-variant opacity-60">

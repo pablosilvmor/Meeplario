@@ -11,18 +11,18 @@ export function LoginScreen() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-12 flex flex-row items-center gap-6"
+        className="mb-12 grid grid-cols-[auto_1fr] items-center gap-4 md:gap-8 max-w-max mx-auto"
       >
         <img
           src="https://i.imgur.com/4dwZg3s.png"
           alt="MEEPLÁRIO Logo"
-          className="h-24 md:h-32 drop-shadow-[0_0_15px_rgba(255,107,0,0.5)]"
+          className="h-20 w-auto md:h-32 drop-shadow-[0_0_15px_rgba(255,107,0,0.5)]"
         />
-        <div className="flex flex-col items-center text-center">
-          <h1 className="font-display text-4xl md:text-6xl uppercase tracking-[0.2em] text-primary-container neon-glow">
+        <div className="flex flex-col items-start justify-center">
+          <h1 className="font-display text-4xl md:text-6xl uppercase tracking-[0.2em] text-primary-container neon-glow leading-none mb-1">
             Meeplário
           </h1>
-          <p className="font-sans text-[11px] text-on-surface-variant opacity-60 mb-1">
+          <p className="font-sans text-[11px] text-on-surface-variant opacity-60">
             Desenvolvido por{" "}
             <a
               href="https://pablosilvmor.github.io/site/1"
@@ -32,9 +32,6 @@ export function LoginScreen() {
             >
               Pablo Moreira
             </a>
-          </p>
-          <p className="font-mono text-[10px] md:text-xs text-on-surface-variant opacity-70 tracking-[0.3em] uppercase mb-1">
-            Controle de Estoque • Inventário Tático
           </p>
         </div>
       </motion.div>
