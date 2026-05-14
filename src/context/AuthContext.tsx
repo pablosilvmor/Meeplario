@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, User, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { onAuthStateChanged, User, GoogleAuthProvider, signInWithPopup, signOut, browserPopupRedirectResolver, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { UserProfile } from '../types';
@@ -68,7 +68,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       prompt: 'select_account'
     });
     try {
-      await signInWithPopup(auth, provider);
+      // Explicitly set persistence and use the resolver for better iframe compatibility
+      await setPersistence(auth, browserLocalPersistence);
+      await signInWithPopup(auth, provider, browserPopupRedirectResolver);
     } catch (error) {
       console.error("Login failed", error);
     }

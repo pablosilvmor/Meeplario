@@ -19,7 +19,7 @@ export function LoginScreen() {
           className="h-24 md:h-32 mb-6 drop-shadow-[0_0_15px_rgba(255,107,0,0.5)]"
         />
         <h1 className="font-display text-4xl md:text-6xl uppercase tracking-[0.2em] text-primary-container neon-glow mb-2">
-          MEEPLÁRIO
+          Meeplário
         </h1>
         <p className="font-mono text-[10px] md:text-xs text-on-surface-variant opacity-70 tracking-[0.3em] uppercase">
           Controle de Estoque • Inventário Tático

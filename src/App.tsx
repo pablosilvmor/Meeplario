@@ -34,11 +34,15 @@ function AppContent() {
   }, [profile]);
 
   if (loading) {
-    return <Preloader />;
+    return (
+      <div className="fixed inset-0 z-[9999]">
+        <Preloader />
+      </div>
+    );
   }
 
   return (
-    <Suspense fallback={<Preloader />}>
+    <Suspense fallback={<div className="fixed inset-0 z-[9999]"><Preloader /></div>}>
       {user ? <MainDashboard /> : <LoginScreen />}
     </Suspense>
   );
