@@ -67,12 +67,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     provider.setCustomParameters({
       prompt: 'select_account'
     });
+    
     try {
-      // Explicitly set persistence and use the resolver for better iframe compatibility
+      // Ensure persistence is set BEFORE trying to sign in
       await setPersistence(auth, browserLocalPersistence);
-      await signInWithPopup(auth, provider, browserPopupRedirectResolver);
-    } catch (error) {
-      console.error("Login failed", error);
+      // Use the standard popup method with explicit resolver
+      const result = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
+      if (result.user) {
+        console.log("Successfully logged in:", result.user.email);
+      }
+    } catch (error: any) {
+      console.error("Login Error Details:", error.code, error.message);
+      if (error.code === 'auth/popup-blocked') {
+        alert("O pop-up de login foi bloqueado pelo seu navegador. Por favor, permita pop-ups para este site.");
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        // Silently handle user closing the popup
+      } else {
+        alert("Erro ao realizar login. Por favor, verifique se o domínio está autorizado no Firebase.");
+      }
     }
   };
 

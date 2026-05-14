@@ -13,7 +13,7 @@ const MainDashboard = lazy(() => import('./components/MainDashboard').then(modul
 
 function Preloader() {
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-6 p-4 text-center">
+    <div className="fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center space-y-6 p-4 text-center">
       <div className="relative w-24 h-24 flex items-center justify-center">
         <span className="material-symbols-outlined text-6xl text-primary animate-pulse relative z-10" style={{ fontVariationSettings: "'FILL' 1" }}>local_fire_department</span>
         <div className="absolute inset-0 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
@@ -33,16 +33,13 @@ function AppContent() {
     }
   }, [profile]);
 
+  // Use a single condition to prevent double preloader rendering
   if (loading) {
-    return (
-      <div className="fixed inset-0 z-[9999]">
-        <Preloader />
-      </div>
-    );
+    return <Preloader />;
   }
 
   return (
-    <Suspense fallback={<div className="fixed inset-0 z-[9999]"><Preloader /></div>}>
+    <Suspense fallback={<Preloader />}>
       {user ? <MainDashboard /> : <LoginScreen />}
     </Suspense>
   );
