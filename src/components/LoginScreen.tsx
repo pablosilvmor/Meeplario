@@ -11,19 +11,32 @@ export function LoginScreen() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-12 text-center flex flex-col items-center"
+        className="mb-12 flex flex-row items-center gap-6"
       >
         <img
           src="https://i.imgur.com/4dwZg3s.png"
           alt="MEEPLÁRIO Logo"
-          className="h-24 md:h-32 mb-6 drop-shadow-[0_0_15px_rgba(255,107,0,0.5)]"
+          className="h-24 md:h-32 drop-shadow-[0_0_15px_rgba(255,107,0,0.5)]"
         />
-        <h1 className="font-display text-4xl md:text-6xl uppercase tracking-[0.2em] text-primary-container neon-glow mb-2">
-          Meeplário
-        </h1>
-        <p className="font-mono text-[10px] md:text-xs text-on-surface-variant opacity-70 tracking-[0.3em] uppercase">
-          Controle de Estoque • Inventário Tático
-        </p>
+        <div className="flex flex-col items-center text-center">
+          <h1 className="font-display text-4xl md:text-6xl uppercase tracking-[0.2em] text-primary-container neon-glow">
+            Meeplário
+          </h1>
+          <p className="font-sans text-[11px] text-on-surface-variant opacity-60 mb-1">
+            Desenvolvido por{" "}
+            <a
+              href="https://pablosilvmor.github.io/site/1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-container hover:underline"
+            >
+              Pablo Moreira
+            </a>
+          </p>
+          <p className="font-mono text-[10px] md:text-xs text-on-surface-variant opacity-70 tracking-[0.3em] uppercase mb-1">
+            Controle de Estoque • Inventário Tático
+          </p>
+        </div>
       </motion.div>
 
       {/* Login Card */}
@@ -146,17 +159,6 @@ export function LoginScreen() {
           </div>
           <div className="h-[1px] w-12 bg-outline-variant" />
         </div>
-        <p className="font-sans text-[11px] text-on-surface-variant opacity-60">
-          Desenvolvido por{" "}
-          <a
-            href="https://pablosilvmor.github.io/site/1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary-container hover:underline"
-          >
-            Pablo Moreira
-          </a>
-        </p>
       </motion.footer>
     </div>
   );

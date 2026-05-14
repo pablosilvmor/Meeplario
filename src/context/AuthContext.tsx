@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else if (error.code === 'auth/popup-closed-by-user') {
         // Silently handle user closing the popup
       } else {
-        alert("Erro ao realizar login. Por favor, verifique se o domínio está autorizado no Firebase.");
+        alert(`Erro ao realizar login (${error.code}). Por favor, verifique se o domínio está autorizado no Firebase.`);
       }
     }
   };
