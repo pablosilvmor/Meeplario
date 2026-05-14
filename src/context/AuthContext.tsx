@@ -21,43 +21,55 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      if (user) {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        const isAdminEmail = user.email === 'meeplariojogos@gmail.com' || user.email === 'pablo.silvmor@gmail.com';
-        
-        if (userDoc.exists()) {
-          const currentProfile = userDoc.data() as UserProfile;
-          // Upgrade to admin if email matches but role doesn't
-          if (isAdminEmail && (currentProfile.role !== 'admin' || !currentProfile.approved)) {
-            const updatedProfile = { 
-              ...currentProfile, 
-              role: 'admin' as const, 
-              approved: true,
-              allowedSectors: ['geral', 'chapa', 'porcoes', 'bebidas', 'compras']
-            };
-            await setDoc(doc(db, 'users', user.uid), updatedProfile);
-            setProfile(updatedProfile);
-          } else {
-            setProfile(currentProfile);
+      try {
+        setUser(user);
+        if (user) {
+          try {
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            const isAdminEmail = user.email === 'meeplariojogos@gmail.com' || user.email === 'pablo.silvmor@gmail.com';
+            
+            if (userDoc.exists()) {
+              const currentProfile = userDoc.data() as UserProfile;
+              if (isAdminEmail && (currentProfile.role !== 'admin' || !currentProfile.approved)) {
+                const updatedProfile = { 
+                  ...currentProfile, 
+                  role: 'admin' as const, 
+                  approved: true,
+                  allowedSectors: ['geral', 'chapa', 'porcoes', 'bebidas', 'compras']
+                };
+                await setDoc(doc(db, 'users', user.uid), updatedProfile);
+                setProfile(updatedProfile);
+              } else {
+                setProfile(currentProfile);
+              }
+            } else {
+              const newProfile: UserProfile = {
+                uid: user.uid,
+                name: user.displayName || 'Staff',
+                email: user.email || '',
+                role: isAdminEmail ? 'admin' : 'chef',
+                approved: isAdminEmail,
+                allowedSectors: isAdminEmail ? ['geral', 'chapa', 'porcoes', 'bebidas', 'compras'] : []
+              };
+              await setDoc(doc(db, 'users', user.uid), newProfile);
+              setProfile(newProfile);
+            }
+          } catch (firestoreError: any) {
+            console.error("Firestore access error during auth init:", firestoreError);
+            const isDbMissing = firestoreError?.message?.includes('not found') || firestoreError?.code === 'not-found';
+            setProfile(null); 
+            if (isDbMissing) {
+              console.warn("CRITICAL: Firestore Database not found. Please create it in the Firebase Console.");
+            }
           }
         } else {
-          // Create new profile - defaults to unapproved for non-admin
-          const newProfile: UserProfile = {
-            uid: user.uid,
-            name: user.displayName || 'Staff',
-            email: user.email || '',
-            role: isAdminEmail ? 'admin' : 'chef',
-            approved: isAdminEmail, // Admin is auto-approved
-            allowedSectors: isAdminEmail ? ['geral', 'chapa', 'porcoes', 'bebidas', 'compras'] : []
-          };
-          await setDoc(doc(db, 'users', user.uid), newProfile);
-          setProfile(newProfile);
+          setProfile(null);
         }
-      } else {
-        setProfile(null);
+      } catch (error) {
+        console.error("Auth initialization fatal error:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
     return unsubscribe;
   }, []);

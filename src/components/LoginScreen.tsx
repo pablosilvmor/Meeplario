@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { useAuth } from "../context/AuthContext";
 
 export function LoginScreen() {
-  const { signIn, user, profile, logOut } = useAuth();
+  const { signIn, user, profile, loading, logOut } = useAuth();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
@@ -71,6 +71,40 @@ export function LoginScreen() {
                 </div>
               </div>
             </>
+          ) : user && !profile ? (
+            <div className="text-center space-y-6 py-4">
+              <div className="w-16 h-16 bg-error/10 text-error rounded-full flex items-center justify-center mx-auto">
+                <span className="material-symbols-outlined text-4xl">
+                  {loading ? 'sync' : 'database_off'}
+                </span>
+              </div>
+              <div className="space-y-2">
+                <h2 className="font-sans text-xl font-bold text-on-surface">
+                  {loading ? 'Sincronizando...' : 'Erro de Acesso ao Banco'}
+                </h2>
+                <p className="font-sans text-sm text-on-surface-variant">
+                  {loading 
+                    ? 'Aguarde enquanto carregamos seus dados táticos...' 
+                    : 'Não foi possível acessar o banco de dados. Verifique se o Firestore está ativo e se as Regras de Segurança foram publicadas.'}
+                </p>
+              </div>
+              {!loading && (
+                <div className="pt-2 flex flex-col gap-3">
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="w-full bg-surface-container text-on-surface font-mono text-[10px] py-3 rounded-lg uppercase tracking-widest hover:bg-surface-container-high transition-colors"
+                  >
+                    Tentar Novamente
+                  </button>
+                  <button
+                    onClick={logOut}
+                    className="w-full border border-outline text-on-surface-variant font-mono text-[10px] py-2 rounded-lg uppercase tracking-widest hover:bg-surface-container"
+                  >
+                    Sair da Conta
+                  </button>
+                </div>
+              )}
+            </div>
           ) : user && profile && !profile.approved ? (
             <div className="text-center space-y-6 py-4">
               <div className="w-16 h-16 bg-primary-container/10 text-primary-container rounded-full flex items-center justify-center mx-auto">
