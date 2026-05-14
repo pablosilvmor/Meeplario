@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "Item": {
+      "title": "Stock Item",
+      "description": "Represents an inventory item in a specific sector.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "sectorId": { "enum": ["chapa", "porcoes", "bebidas"] },
+        "currentStock": { "type": "number" },
+        "minStock": { "type": "number" },
+        "idealStock": { "type": "number" },
+        "unit": { "type": "string" },
+        "packageType": { "type": "string" },
+        "packageWeight": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "lastUpdatedBy": { "type": "string" }
+      },
+      "required": ["name", "sectorId", "currentStock", "minStock", "idealStock", "unit"]
+    },
+    "User": {
+      "title": "Staff User",
+      "description": "Staff members with sector-specific access.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "enum": ["admin", "chef"] },
+        "approved": { "type": "boolean" },
+        "allowedSectors": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["uid", "name", "email", "role", "approved", "allowedSectors"]
+    },
+    "StockLog": {
+      "title": "Stock Change Log",
+      "description": "History of all stock modifications.",
+      "type": "object",
+      "properties": {
+        "itemId": { "type": "string" },
+        "itemName": { "type": "string" },
+        "userName": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "enum": ["increase", "decrease", "replenish", "set"] },
+        "amount": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["itemId", "itemName", "userName", "userId", "type", "amount", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/items/{itemId}": {
+      "schema": "Item",
+      "description": "Collection of all inventory items."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and credentials."
+    },
+    "/history/{logId}": {
+      "schema": "StockLog",
+      "description": "Audit trail for stock changes."
+    }
+  }
+}
