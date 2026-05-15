@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuth } from "../context/AuthContext";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection, query, where } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 export function ProfileView({
   onAdminPanel,
@@ -11,6 +14,20 @@ export function ProfileView({
 }) {
   const { profile, logOut } = useAuth();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  // Fetch all allowed items to calculate stats
+  const itemsRef = collection(db, "items");
+  const [itemsSnapshot] = useCollection(itemsRef);
+  const items = itemsSnapshot?.docs.map(doc => ({ id: doc.id, ...doc.data() } as any)) || [];
+  
+  // Only count items in allowed sectors if not admin/general
+  const visibleItems = (profile?.role === "admin" || profile?.allowedSectors?.includes("geral")) 
+    ? items 
+    : items.filter(i => profile?.allowedSectors?.includes(i.sectorId));
+
+  const totalItems = visibleItems.length;
+  const criticalItems = visibleItems.filter(i => (i.quantity || i.qty || 0) <= (i.criticalQuantity || i.minQty || 0)).length;
+
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -102,10 +119,18 @@ export function ProfileView({
             </div>
             <div>
               <p className="font-mono text-[9px] text-on-surface-variant uppercase">
+                ID do Operador
+              </p>
+              <p className="font-sans font-bold text-on-surface" title={profile?.uid}>
+                {profile?.uid?.substring(0, 8).toUpperCase() || "N/A"}
+              </p>
+            </div>
+            <div>
+              <p className="font-mono text-[9px] text-on-surface-variant uppercase">
                 Código de Comando
               </p>
-              <p className="font-sans font-bold text-primary-container">
-                PRO-ACCESS-420
+              <p className="font-sans font-bold text-primary-container" title={profile?.uid}>
+                {profile?.uid ? `PRO-${profile.uid.substring(profile.uid.length - 8).toUpperCase()}` : "PRO-ACCESS"}
               </p>
             </div>
           </div>
@@ -118,15 +143,15 @@ export function ProfileView({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="font-mono text-[9px] text-on-surface-variant uppercase">
-                Sincronizações Hoje
+                Itens Ativos
               </p>
-              <p className="font-display text-2xl text-primary font-bold">12</p>
+              <p className="font-display text-2xl text-primary font-bold">{totalItems < 10 ? `0${totalItems}` : totalItems}</p>
             </div>
             <div>
               <p className="font-mono text-[9px] text-on-surface-variant uppercase">
-                Alertas Limpos
+                Atenção Necessária
               </p>
-              <p className="font-display text-2xl text-error font-bold">04</p>
+              <p className="font-display text-2xl text-error font-bold">{criticalItems < 10 ? `0${criticalItems}` : criticalItems}</p>
             </div>
           </div>
         </div>
@@ -154,15 +179,8 @@ export function ProfileView({
           </button>
         )}
         <button
-          onClick={onDataPanel}
-          className="w-full py-4 glass-panel border border-outline-variant/30 rounded-xl font-mono text-xs tracking-widest uppercase hover:border-primary transition-all flex items-center justify-center gap-2"
-        >
-          <span className="material-symbols-outlined">settings</span>
-          Configurações do Sistema
-        </button>
-        <button
           onClick={() => setShowLogoutConfirm(true)}
-          className="w-full py-4 bg-error/10 border border-error/30 text-error rounded-xl font-mono text-xs tracking-widest uppercase hover:bg-error/20 transition-all flex items-center justify-center gap-2"
+          className="w-full py-4 bg-error/10 border border-error/30 text-error rounded-xl font-mono text-xs tracking-widest uppercase hover:bg-error/20 transition-all flex items-center justify-center gap-2 mt-4"
         >
           <span className="material-symbols-outlined">logout</span>
           Encerrar Sessão

@@ -63,15 +63,10 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                  <button
                    key={icon}
                    onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
-                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border overflow-hidden ${value === icon ? 'bg-primary-container text-primary-container border-primary shadow-md' : 'border-transparent text-on-surface hover:text-primary hover:bg-surface-container-high'}`}
+                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border ${value === icon ? 'bg-primary-container text-on-primary-container border-primary shadow-md' : 'border-transparent text-on-surface hover:text-primary hover:bg-surface-container-high'}`}
                    title={icon}
                  >
-                   <span 
-                     className="material-symbols-outlined text-[24px] mb-1 block overflow-hidden text-center" 
-                     style={{ width: '24px', height: '24px', lineHeight: '24px'}}
-                   >
-                     {icon}
-                   </span>
+                   <span className="material-symbols-outlined text-[24px] mb-1">{icon}</span>
                  </button>
                ))}
                {filteredIcons.length === 0 && (
@@ -392,7 +387,7 @@ export function DataManagement() {
   const filteredItems = items.filter(item => 
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
     item.sectorId && sectors.find(s => s.id === item.sectorId)
-  );
+  ).sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12 relative">
