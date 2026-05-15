@@ -2,68 +2,81 @@
 /**
  * Utilitário para mapeamento inteligente de ícones do Material Symbols
  * baseado em palavras-chave no texto.
- */
-
-const iconMap: Record<string, string[]> = {
+ */const iconMap: Record<string, string[]> = {
   // Lanches e Sanduíches
-  'lunch_dining': ['lanche', 'hamburguer', 'burger', 'cheeseburger', 'sanduíche', 'artesanal'],
-  'bakery_dining': ['pão', 'trigo', 'farinha', 'panko'],
+  'lunch_dining': ['lanche', 'hamburguer', 'burger', 'cheeseburger', 'sanduiche', 'artesanal', 'combo', 'xtudo'],
+  'bakery_dining': ['pao', 'trigo', 'farinha', 'panko', 'rosca', 'baguete', 'bisnaga', 'paozinho'],
   
   // Condimentos e Ingredientes Adicionais
-  'outdoor_grill': ['bacon'],
-  'eco': ['alface', 'picles', 'cebola'],
-  'local_pizza': ['mussarela', 'cheddar', 'queijo', 'gorgonzola', 'pizza', 'calzone'],
-  'egg_alt': ['ovo', 'omelete', 'mexido'],
-  'grass': ['tomate', 'hortelã'],
+  'outdoor_grill': ['bacon', 'calabresa', 'grelhado', 'churrasco', 'linguica', 'brasa'],
+  'eco': ['alface', 'picles', 'cebola', 'salada', 'rucula', 'cheiro verde', 'coentro', 'hortalica'],
+  'grass': ['tomate', 'hortela', 'manjericao', 'erva', 'salsa', 'cebolinha', 'alecrim', 'vegetal', 'legume'],
+  'local_pizza': ['mussarela', 'cheddar', 'queijo', 'gorgonzola', 'pizza', 'calzone', 'catupiry', 'provolone', 'margarita', 'pepperoni'],
+  'egg_alt': ['ovo', 'omelete', 'mexido', 'codorna'],
   
-  // Molhos
+  // Molhos e Temperos
   'blender': ['molho', 'maionese', 'mostarda', 'ketchup', 'katchup', 'barbecue', 'baconese', 'blister', 'copinho'],
-  'science': ['páprica', 'corante', 'pasta'],
-
+  'science': ['paprica', 'corante', 'pasta', 'essencia', 'quimica', 'aditivo'],
+  'grain': ['acucar', 'canela', 'sal', 'parrilha', 'pimenta', 'oregano', 'tempero', 'arroz', 'feijao', 'grao', 'semente'],
+  
   // Carnes
-  'set_meal': ['bife', 'carne', 'churrasco', 'picanha', 'steak', 'costela', 'porção', 'petisco'],
-  'kebab_dining': ['frango', 'nuggets', 'empanar', 'linguiça'],
+  'set_meal': ['bife', 'carne', 'churrasco', 'picanha', 'steak', 'costela', 'porcao', 'petisco', 'alcatra', 'file', 'boi', 'suino', 'porco'],
+  'kebab_dining': ['frango', 'nuggets', 'empanar', 'espeto', 'espetinho', 'ave', 'peito', 'coxa', 'asa'],
+  'set_meal': ['peixe', 'camarao', 'frutos do mar', 'sushi', 'temaki', 'atum', 'salmao'], // Overwrites with a larger set or use another icon
   
   // Acompanhamentos e Opcionais
-  'fastfood': ['batata', 'frita', 'jenga', 'aneis'],
-  'grain': ['açúcar', 'açucar', 'canela', 'sal', 'parrilha'],
+  'fastfood': ['batata', 'frita', 'jenga', 'aneis', 'fast food', 'salgado', 'coxinha', 'kibe', 'pastel'],
   
-  // Sobremesas
-  'cake': ['brownie', 'doce', 'bolo'],
-  'icecream': ['sorvete', 'morango', 'tropical', 'céu azul', 'blue ice', 'caramelo', 'amora', 'baunilha'],
-  'cookie': ['marshmellow', 'balinha', 'bala', 'unicórnio', 'chocolate', 'glitter', 'avelã', 'nutella', 'churros'],
+  // Sobremesas e Doces
+  'cake': ['brownie', 'doce', 'bolo', 'torta', 'fatia', 'pudim'],
+  'icecream': ['sorvete', 'morango', 'tropical', 'ceu azul', 'blue ice', 'caramelo', 'amora', 'baunilha', 'picole', 'gelato', 'acai'],
+  'cookie': ['marshmellow', 'balinha', 'bala', 'unicornio', 'chocolate', 'glitter', 'avela', 'nutella', 'churros', 'bolacha', 'biscoito'],
   
   // Bebidas
-  'local_drink': ['coca', 'guaraná', 'sprite', 'schweppes', 'fanta', 'refrigerante', 'suco', 'água', 'bebida'],
-  'bolt': ['monster', 'energético'],
-  'sports_bar': ['cerveja', 'latão', 'chopp', 'breja'],
-  'ac_unit': ['gelo'],
-  'water_drop': ['polpa', 'leite'],
-  'emoji_food_beverage': ['café', 'chá', 'quente'],
-
+  'local_drink': ['coca', 'guarana', 'sprite', 'schweppes', 'fanta', 'refrigerante', 'suco', 'agua', 'bebida', 'pepsi', 'kuat'],
+  'bolt': ['monster', 'energetico', 'red bull', 'bally'],
+  'sports_bar': ['cerveja', 'latao', 'chopp', 'breja', 'heineken', 'brahma', 'skol', 'amstel', 'vodka', 'gin', 'bebida alcoolica'],
+  'wine_bar': ['vinho', 'taca', 'champagne', 'espumante'],
+  'liquor': ['whisky', 'licor', 'cachaça', 'pinga', 'destilado', 'tequila', 'rum'],
+  'ac_unit': ['gelo', 'congelado'],
+  'water_drop': ['polpa', 'leite', 'creme de leite', 'leite condensado', 'gota', 'liquido', 'oléo', 'azeite', 'shoyu'],
+  'emoji_food_beverage': ['cafe', 'cha', 'quente', 'capuccino', 'mocha', 'expresso'],
+  
   // Embalagens e Delivery
-  'takeout_dining': ['sacola', 'delivery', 'sachê'],
-  'receipt_long': ['bobina', 'impressora', 'nota', 'cupom', 'papel', 'toalha', 'guardanapo', 'insulfilme', 'insufilme'],
+  'takeout_dining': ['sacola', 'delivery', 'sache', 'embalagem', 'marmita', 'quentinha', 'caixa', 'papelao'],
+  'receipt_long': ['bobina', 'impressora', 'nota', 'cupom', 'papel', 'toalha', 'guardanapo', 'insulfilme', 'insufilme', 'plastico filme'],
   
-  // Cozinha e Limpeza
-  'propane': ['gás', 'maçarico'],
-  'sanitizer': ['desinfetante', 'detergente', 'desengordurante', 'sapólio', 'álcool', 'limpeza'],
-  'cleaning_bucket': ['bucha', 'esponja', 'palha', 'aço'],
-  'delete': ['saco', 'lixo', 'lixeira'],
-  'flatware': ['espátula', 'talher', 'faca', 'colher'],
-  'hardware': ['palito', 'dente'],
+  // Equipamentos, Cozinha e Manutenção
+  'kitchen': ['cozinha', 'geladeira', 'fogao', 'chapa', 'freezer', 'refrigerador', 'forno'],
+  'blender': ['liquidificador', 'batedeira', 'processador', 'mixer'],
+  'coffee_maker': ['cafeteira', 'maquina de cafe', 'maquina de expresso'],
+  'microwave': ['microondas', 'micro-ondas'],
+  'propane': ['gas', 'macarico', 'botijao', 'cilindro'],
+  'flatware': ['espatula', 'talher', 'faca', 'colher', 'garfo', 'concha', 'pegador'],
+  'skillet': ['frigideira', 'panela', 'cacarola', 'tacho'],
   
-  // Banheiro
-  'wc': ['banheiro', 'higiênico', 'higienico', 'absorvente'],
-  'wash': ['sabão', 'sabonete', 'lenço', 'umidecido', 'fio dental'],
-  'spa': ['desodorante', 'aromatizante', 'bom ar'],
-
+  // Limpeza e Higiene
+  'sanitizer': ['desinfetante', 'detergente', 'desengordurante', 'sapolio', 'alcool', 'limpeza', 'veja', 'multiuso', 'cloro', 'agua sanitaria', 'candida'],
+  'cleaning_bucket': ['bucha', 'esponja', 'palha', 'aco', 'bombril', 'balde', 'mop', 'pano de chao', 'rodo', 'vassoura', 'pá'],
+  'delete': ['saco', 'lixo', 'lixeira', 'descarte'],
+  'wash': ['sabao', 'sabonete', 'lenco', 'umidecido', 'fio dental', 'amaciante', 'lava roupas'],
+  'wc': ['banheiro', 'higienico', 'absorvente', 'papel higienico', 'mictorio', 'vaso'],
+  'spa': ['desodorante', 'aromatizante', 'bom ar', 'perfume', 'cosmetico', 'shampoo', 'condicionador', 'creme'],
+  'hardware': ['palito', 'dente', 'ferramenta', 'martelo', 'chave', 'prego', 'parafuso'],
+  'build': ['manutencao', 'conserto', 'reparo', 'oficina'],
+  
   // Outros e Setores
-  'inventory': ['geral', 'almoxarifado', 'depósito'],
-  'room_service': ['serviço', 'lanche', 'quarto'],
-  'group': ['cliente', 'mesa', 'atendimento', 'staff'],
-  'payments': ['caixa', 'pagamento', 'financeiro', 'venda', 'vaturamento'],
-  'kitchen': ['cozinha', 'geladeira', 'fogão', 'chapa'],
+  'inventory': ['geral', 'almoxarifado', 'deposito', 'estoque', 'armazen', 'inventario'],
+  'room_service': ['servico', 'lanche', 'quarto', 'hotelaria', 'hospedagem'],
+  'group': ['cliente', 'mesa', 'atendimento', 'staff', 'equipe', 'funcionario', 'pessoal', 'rh'],
+  'payments': ['caixa', 'pagamento', 'financeiro', 'venda', 'faturamento', 'dinheiro', 'cartao', 'pix', 'troco'],
+  'shopping_cart': ['compra', 'supermercado', 'carrinho', 'loja'],
+  'storefront': ['fachada', 'vitrine', 'loja fisica', 'ponto de venda', 'pdv'],
+  'local_shipping': ['frete', 'entrega', 'entregador', 'caminhao', 'transporte', 'logistica', 'motoboy', 'ifood'],
+  'schedule': ['horario', 'turno', 'escala', 'agendamento', 'relogio', 'tempo', 'prazo'],
+  'health_and_safety': ['epi', 'seguranca', 'luva', 'mascara', 'avental', 'bota', 'touca', 'rede', 'jaleco'],
+  'medical_services': ['primeiros socorros', 'curativo', 'band-aid', 'remedio', 'medicamento', 'farmacia'],
+  'event': ['festa', 'evento', 'reserva', 'confraternizacao'],
 };
 
 export const availableIcons = Array.from(new Set([
@@ -133,15 +146,19 @@ export const availableIcons = Array.from(new Set([
 ]));
 
 export function getSmartIcon(text: string): string {
-  const lowerText = text.toLowerCase().trim();
+  const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  const normalizedText = normalize(text);
   
   for (const [icon, keywords] of Object.entries(iconMap)) {
-    if (keywords.some(k => lowerText.includes(k))) {
+    if (keywords.some(k => normalizedText.includes(normalize(k)))) {
       return icon;
     }
   }
   
+  // Opcionalmente podemos procurar correspondência aproximada aqui (fuzzy matching), 
+  // por enquanto o inclui() vai pegar se for substring.
+  
   // Default fallback por contexto
-  if (lowerText.length < 3) return 'category';
+  if (normalizedText.length < 3) return 'category';
   return 'inventory_2';
 }

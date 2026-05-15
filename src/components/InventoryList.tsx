@@ -15,7 +15,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 import { Item, Sector, CustomSector } from "../types";
-import { availableIcons } from "../lib/icons";
+import { availableIcons, getSmartIcon } from "../lib/icons";
 import { motion, AnimatePresence } from "motion/react";
 import { StockUpdateModal } from "./StockUpdateModal";
 
@@ -389,8 +389,10 @@ export function InventoryList({ sector }: InventoryListProps) {
                 e.currentTarget.disabled = true;
                 e.currentTarget.value = "Adicionando...";
                 try {
+                  const smartIcon = getSmartIcon(name);
                   await addDoc(collection(db, "items"), {
                     name,
+                    icon: smartIcon,
                     sectorId: quickAddSector,
                     currentStock: 0,
                     minStock: 5,
