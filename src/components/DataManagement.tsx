@@ -106,11 +106,12 @@ export function DataManagement() {
   const [itemsSnapshot] = useCollection(collection(db, "items"));
 
   const sectors =
-    sectorsSnapshot?.docs.map(
+    (sectorsSnapshot?.docs.map(
       (d) => ({ id: d.id, ...d.data() }) as CustomSector,
-    ) || [];
+    ) || []).sort((a, b) => a.name.localeCompare(b.name));
   const items =
-    itemsSnapshot?.docs.map((d) => ({ id: d.id, ...d.data() }) as Item) || [];
+    (itemsSnapshot?.docs.map((d) => ({ id: d.id, ...d.data() }) as Item) || [])
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const [newSectorName, setNewSectorName] = useState("");
   const [newSectorDesc, setNewSectorDesc] = useState("");
