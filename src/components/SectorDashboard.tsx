@@ -68,20 +68,121 @@ export function SectorDashboard({
             Setores da Cozinha
           </h2>
           
-          {/* Search Filter */}
-          <div className="bg-surface-container-low border border-outline-variant/30 px-3 py-2 rounded-xl flex gap-2 items-center w-full md:w-64">
-             <span className="material-symbols-outlined text-on-surface-variant flex-shrink-0 text-[20px]">search</span>
-             <input 
-               value={searchTerm}
-               onChange={(e) => setSearchTerm(e.target.value)}
-               placeholder="Pesquisar setores..."
-               className="flex-1 bg-transparent text-on-surface text-sm focus:outline-none placeholder:text-on-surface-variant/50 w-full"
-             />
-             {searchTerm && (
-               <button onClick={() => setSearchTerm('')} className="text-on-surface-variant flex-shrink-0 hover:text-primary transition-colors">
-                  <span className="material-symbols-outlined text-sm">close</span>
-               </button>
-             )}
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            {/* Search Filter */}
+            <div className="bg-surface-container-low border border-outline-variant/30 px-3 py-2 rounded-xl flex gap-2 items-center flex-1 md:w-64">
+               <span className="material-symbols-outlined text-on-surface-variant flex-shrink-0 text-[20px]">search</span>
+               <input 
+                 value={searchTerm}
+                 onChange={(e) => setSearchTerm(e.target.value)}
+                 placeholder="Pesquisar setores..."
+                 className="flex-1 bg-transparent text-on-surface text-sm focus:outline-none placeholder:text-on-surface-variant/50 w-full"
+               />
+               {searchTerm && (
+                 <button onClick={() => setSearchTerm('')} className="text-on-surface-variant flex-shrink-0 hover:text-primary transition-colors">
+                    <span className="material-symbols-outlined text-sm">close</span>
+                 </button>
+               )}
+            </div>
+
+            <button
+               onClick={async () => {
+                 const { jsPDF } = await import("jspdf");
+                 const autoTable = (await import("jspdf-autotable")).default;
+                 const doc = new jsPDF();
+                 const pageWidth = doc.internal.pageSize.width;
+
+                 try {
+                   const logoUrl = "https://i.imgur.com/4dwZg3s.png";
+                   doc.addImage(logoUrl, 'PNG', 14, 10, 30, 30);
+                 } catch (e) {
+                   console.warn("Logo failed to load", e);
+                 }
+
+                 doc.setFont("helvetica", "bold");
+                 doc.setFontSize(22);
+                 doc.setTextColor(255, 107, 0); // Primary color
+                 doc.text("MEEPLÁRIO", 50, 22);
+
+                 doc.setFontSize(14);
+                 doc.setTextColor(100, 100, 100);
+                 doc.text("Relatório Geral de Estoque", 50, 30);
+
+                 doc.setFontSize(10);
+                 doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 50, 36);
+
+                 const itemsList = itemsSnapshot?.docs.map(d => {
+                   const data = d.data();
+                   return {
+                     ...data,
+                     id: d.id,
+                     sectorName: allSectorsList.find(s => s.id === data.sectorId)?.name || data.sectorId
+                   };
+                 }) || [];
+                 
+                 // Sort alphabetically by name
+                 itemsList.sort((a, b) => a.name.localeCompare(b.name));
+
+                 // Group by sector
+                 const groupedItems: Record<string, any[]> = {};
+                 itemsList.forEach(item => {
+                   if (!groupedItems[item.sectorName]) {
+                     groupedItems[item.sectorName] = [];
+                   }
+                   groupedItems[item.sectorName].push(item);
+                 });
+
+                 // Sort sectors alphabetically
+                 const sortedSectors = Object.keys(groupedItems).sort((a, b) => a.localeCompare(b));
+
+                 let finalBody: any[] = [];
+                 sortedSectors.forEach(sector => {
+                   finalBody.push([{ content: sector.toUpperCase(), colSpan: 3, styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center' } }]);
+                   groupedItems[sector].forEach(item => {
+                     finalBody.push([
+                       item.name,
+                       `${item.currentStock} ${item.unit}`,
+                       item.currentStock <= item.minStock ? "CRÍTICO" : "NORMAL"
+                     ]);
+                   });
+                 });
+
+                 autoTable(doc, {
+                   startY: 45,
+                   head: [['ITEM', 'ESTOQUE', 'STATUS']],
+                   body: finalBody,
+                   theme: 'grid',
+                   headStyles: {
+                     fillColor: [255, 107, 0],
+                     textColor: 255,
+                     fontStyle: 'bold'
+                   },
+                   styles: {
+                     font: 'helvetica',
+                     fontSize: 10,
+                     cellPadding: 5,
+                   },
+                   willDrawCell: function(data: any) {
+                     // Cor para status CRÍTICO
+                     if (data.row.section === 'body' && data.column.index === 2) {
+                       if (data.cell.raw === 'CRÍTICO') {
+                         doc.setTextColor(220, 38, 38);
+                         doc.setFont("helvetica", "bold");
+                       } else if (data.cell.raw === 'NORMAL') {
+                         doc.setTextColor(100, 100, 100);
+                         doc.setFont("helvetica", "normal");
+                       }
+                     }
+                   }
+                 });
+
+                 doc.save(`estoque_${new Date().toISOString().split('T')[0]}.pdf`);
+               }}
+               className="bg-surface-container-high border border-outline-variant/30 px-4 py-2 rounded-xl flex items-center justify-center text-primary hover:bg-surface-container-highest transition-colors flex-shrink-0"
+               title="Exportar em PDF"
+            >
+              <span className="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+            </button>
           </div>
         </div>
       </header>
@@ -169,7 +270,7 @@ function SectorCard({
     >
       <div className="flex justify-between items-start z-10">
         <div
-          className={`p-3 rounded-lg border transition-colors ${
+          className={`p-3 rounded-lg border transition-colors overflow-hidden ${
             isLocked
               ? "bg-surface-container-highest border-outline-variant/30 text-on-surface-variant"
               : urgent

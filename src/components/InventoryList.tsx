@@ -456,15 +456,15 @@ function ItemCard({
   onEdit: () => void;
   key?: React.Key;
 }) {
-  const isCritical = item.currentStock <= item.minStock;
-  const percentage = Math.min(
-    100,
-    Math.round((item.currentStock / item.idealStock) * 100),
-  );
-
   const [localStock, setLocalStock] = useState(item.currentStock);
   const [isEditingQuantity, setIsEditingQuantity] = useState(false);
   const [tempQuantity, setTempQuantity] = useState(String(item.currentStock));
+
+  const isCritical = localStock <= item.minStock;
+  const percentage = Math.min(
+    100,
+    Math.round((localStock / item.idealStock) * 100),
+  );
 
   // Sync local stock with prop when prop changes (if not interacting)
   useEffect(() => {
@@ -489,12 +489,13 @@ function ItemCard({
   const fastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleStart = (delta: number) => {
+    if (timerRef.current || fastTimerRef.current) return;
     setLocalStock(prev => Math.max(0, prev + delta));
     timerRef.current = setTimeout(() => {
       fastTimerRef.current = setInterval(() => {
         setLocalStock(prev => Math.max(0, prev + delta));
-      }, 60); // Even faster count
-    }, 300); // Shorter delay before fast count
+      }, 150); // Slower count
+    }, 500); // Longer delay before fast count
   };
 
   const handleEnd = () => {
@@ -549,13 +550,12 @@ function ItemCard({
 
       <div className="flex items-center justify-between mt-2">
         <button
-          onMouseDown={() => handleStart(-1)}
-          onMouseUp={handleEnd}
-          onMouseLeave={handleEnd}
-          onTouchStart={(e) => { e.preventDefault(); handleStart(-1); }}
-          onTouchEnd={handleEnd}
+          onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); handleStart(-1); }}
+          onPointerUp={(e) => { e.currentTarget.releasePointerCapture(e.pointerId); handleEnd(); }}
+          onPointerLeave={handleEnd}
+          onPointerCancel={handleEnd}
           onContextMenu={(e) => e.preventDefault()}
-          className="w-11 h-11 flex items-center justify-center bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-on-surface active:scale-95 transition-all hover:border-primary-container select-none"
+          className="w-11 h-11 flex items-center justify-center bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-on-surface active:scale-95 transition-all hover:border-primary-container select-none touch-none"
         >
           <span className="material-symbols-outlined">remove</span>
         </button>
@@ -578,13 +578,12 @@ function ItemCard({
         </div>
 
         <button
-          onMouseDown={() => handleStart(1)}
-          onMouseUp={handleEnd}
-          onMouseLeave={handleEnd}
-          onTouchStart={(e) => { e.preventDefault(); handleStart(1); }}
-          onTouchEnd={handleEnd}
+          onPointerDown={(e) => { e.currentTarget.setPointerCapture(e.pointerId); handleStart(1); }}
+          onPointerUp={(e) => { e.currentTarget.releasePointerCapture(e.pointerId); handleEnd(); }}
+          onPointerLeave={handleEnd}
+          onPointerCancel={handleEnd}
           onContextMenu={(e) => e.preventDefault()}
-          className="w-11 h-11 flex items-center justify-center bg-primary-container border border-primary-container rounded-lg text-on-primary-container active:scale-95 transition-all neon-glow select-none"
+          className="w-11 h-11 flex items-center justify-center bg-primary-container border border-primary-container rounded-lg text-on-primary-container active:scale-95 transition-all neon-glow select-none touch-none"
         >
           <span className="material-symbols-outlined">add</span>
         </button>

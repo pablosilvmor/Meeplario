@@ -215,14 +215,13 @@ export function ShoppingList() {
 
       const qHistory = query(
         historyRef,
-        where("type", "==", "replenish"),
         where("timestamp", ">=", start),
         where("timestamp", "<=", end),
         orderBy("timestamp", "desc")
       );
       
       const snap = await getDocs(qHistory);
-      const itemsToReport = snap.docs.map(d => d.data());
+      const itemsToReport = snap.docs.map(d => d.data()).filter(d => d.type === "replenish");
 
       if (itemsToReport.length > 0) {
         await generatePDF(itemsToReport, periodStart, periodEnd);

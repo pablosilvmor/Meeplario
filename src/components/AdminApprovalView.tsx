@@ -155,10 +155,10 @@ function UserCard({
       {!onApprove && onToggleSector && (
         <div className="pt-2 border-t border-outline-variant/20">
           <p className="font-mono text-[9px] text-on-surface-variant uppercase tracking-widest mb-3">
-            Permissões de Acesso
+            Permissões de Telas
           </p>
-          <div className="flex flex-wrap gap-2">
-            <button
+          <div className="flex flex-wrap gap-2 mb-4">
+             <button
                onClick={() => onToggleSector("geral")}
                className={`px-3 py-1.5 rounded-lg font-mono text-[9px] uppercase tracking-wider transition-all border ${
                  user.allowedSectors?.includes("geral")
@@ -166,9 +166,25 @@ function UserCard({
                    : "bg-surface-container-lowest border-outline-variant/30 text-on-surface-variant opacity-50"
                }`}
              >
-               GERAL (TODOS)
+               TELAS (TODAS)
              </button>
-            {sectorsList.map((s) => (
+             <button
+               onClick={() => onToggleSector("compras")}
+               className={`px-3 py-1.5 rounded-lg font-mono text-[9px] uppercase tracking-wider transition-all border ${
+                 user.allowedSectors?.includes("compras" as Sector)
+                   ? "bg-primary-container/20 border-primary-container text-primary-container"
+                   : "bg-surface-container-lowest border-outline-variant/30 text-on-surface-variant opacity-50"
+               }`}
+             >
+               TELAS (COMPRAS/ALERTAS)
+             </button>
+          </div>
+
+          <p className="font-mono text-[9px] text-on-surface-variant uppercase tracking-widest mb-3">
+            Permissões de Cards (Setores)
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {sectorsList.filter(s => s.id !== "compras").map((s) => (
               <button
                 key={s.id}
                 onClick={() => onToggleSector(s.id)}

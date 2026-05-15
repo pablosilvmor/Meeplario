@@ -15,7 +15,72 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../lib/firebase";
 import { CustomSector, Item } from "../types";
 
-import { getSmartIcon } from "../lib/icons";
+import { getSmartIcon, availableIcons } from "../lib/icons";
+
+const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) => void }) => {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const filteredIcons = availableIcons.filter(icon => icon.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <>
+      <div className="relative w-full z-10">
+        <div className="flex gap-2">
+          <div className="w-9 h-9 rounded-lg bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined text-xl">{value || 'category'}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="bg-surface border border-outline-variant text-on-surface px-3 py-1 text-sm rounded w-full flex items-center justify-between hover:bg-surface-container-high transition-colors"
+          >
+            <span className="truncate">{value || "Selecionar Ícone..."}</span>
+            <span className="material-symbols-outlined text-[18px] text-on-surface-variant flex-shrink-0">search</span>
+          </button>
+        </div>
+      </div>
+      
+      {open && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <div className="bg-surface-container p-6 rounded-xl border border-outline-variant shadow-2xl z-10 w-full max-w-lg flex flex-col max-h-[80vh] animate-in zoom-in-95">
+             <div className="flex justify-between items-center mb-4">
+               <h3 className="font-display text-xl text-on-surface">Selecionar Ícone</h3>
+               <button onClick={() => setOpen(false)} className="text-on-surface-variant hover:text-primary transition-colors">
+                 <span className="material-symbols-outlined">close</span>
+               </button>
+             </div>
+             <input 
+               value={search}
+               onChange={(e) => setSearch(e.target.value)}
+               placeholder="Pesquisar ícones..."
+               className="bg-surface border border-outline-variant text-on-surface px-4 py-3 rounded-lg w-full mb-4 focus:outline-primary"
+               autoFocus
+             />
+             <div className="overflow-y-auto grid grid-cols-6 sm:grid-cols-8 gap-2 styled-scrollbar pr-2 flex-1 min-h-0 bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/30">
+               {filteredIcons.map(icon => (
+                 <button
+                   key={icon}
+                   onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
+                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border ${value === icon ? 'bg-primary-container text-primary-container border-primary shadow-md' : 'border-transparent text-on-surface hover:text-primary hover:bg-surface-container-high'}`}
+                   title={icon}
+                 >
+                   <span className="material-symbols-outlined text-[24px] mb-1">{icon}</span>
+                 </button>
+               ))}
+               {filteredIcons.length === 0 && (
+                 <div className="col-span-full py-8 text-center text-on-surface-variant text-sm">
+                   Nenhum ícone encontrado.
+                 </div>
+               )}
+             </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
 export function DataManagement() {
   const [sectorsSnapshot] = useCollection(collection(db, "sectors"));
@@ -416,12 +481,7 @@ export function DataManagement() {
                       placeholder="Descrição"
                       className="bg-surface border text-on-surface px-2 py-1 text-sm rounded w-full"
                     />
-                    <input 
-                      value={editSectorIcon} 
-                      onChange={e => setEditSectorIcon(e.target.value)} 
-                      placeholder="Ícone (opcional, ex: fastfood, lunch_dining)"
-                      className="bg-surface border text-on-surface px-2 py-1 text-sm rounded w-full"
-                    />
+                    <IconPicker value={editSectorIcon} onChange={setEditSectorIcon} />
                     <div className="flex justify-end gap-3 mt-3 border-t border-outline-variant/10 pt-3">
                       <button 
                         disabled={isSavingSector}
@@ -449,8 +509,8 @@ export function DataManagement() {
                         {s.description}
                       </p>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20">
+                    <div className="flex items-center gap-3 relative z-10">
+                      <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 overflow-hidden">
                         <span className="material-symbols-outlined text-[18px]">{s.icon || 'category'}</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -586,12 +646,7 @@ export function DataManagement() {
                         placeholder="Nome do Item"
                         className="bg-surface border text-on-surface px-2 py-1 text-sm rounded w-full"
                      />
-                     <input 
-                        value={editItemIcon} 
-                        onChange={e => setEditItemIcon(e.target.value)} 
-                        placeholder="Ícone do Item (opcional, ex: fastfood, inventory_2)"
-                        className="bg-surface border text-on-surface px-2 py-1 text-sm rounded w-full"
-                     />
+                     <IconPicker value={editItemIcon} onChange={setEditItemIcon} />
                      <div className="flex justify-end gap-3 mt-3 border-t border-outline-variant/10 pt-3">
                         <button 
                           disabled={isSavingItem}
@@ -611,8 +666,8 @@ export function DataManagement() {
                    </div>
                 ) : (
                    <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3 truncate flex-1">
-                      <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-on-surface-variant border border-outline-variant/20 flex-shrink-0">
+                    <div className="flex items-center gap-3 truncate flex-1 relative z-10">
+                      <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-on-surface-variant border border-outline-variant/20 flex-shrink-0 overflow-hidden">
                         <span className="material-symbols-outlined text-[16px]">{item.icon || 'inventory_2'}</span>
                       </div>
                       <div className="truncate">

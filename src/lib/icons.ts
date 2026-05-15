@@ -5,33 +5,68 @@
  */
 
 const iconMap: Record<string, string[]> = {
-  // Alimentação & Cozinha
-  'restaurant': ['lanche', 'comida', 'refeição', 'almoço', 'jantar', 'prato'],
-  'lunch_dining': ['hamburguer', 'burger', 'cheeseburger', 'sanduíche', 'artesanal'],
-  'meat_service': ['carne', 'churrasco', 'picanha', 'frango', 'bq', 'steak', 'proteina'],
-  'egg': ['ovo', 'omelete', 'mexido'],
-  'local_pizza': ['pizza', 'calzone', 'massa'],
-  'bakery_dining': ['pão', 'padaria', 'croissant', 'doce', 'confeitaria', 'farinha'],
-  'ramen_dining': ['macarrão', 'massa', 'italiana', 'yakisoba', 'japonesa'],
-  'skillet': ['chapa', 'grelha', 'fogão', 'preparo'],
-  'kitchen_detective': ['insumo', 'ingrediente', 'estoque', 'matéria-prima'],
-  'set_meal': ['porção', 'entrada', 'petisco', 'batata', 'fritas', 'nuggets'],
+  // Lanches e Sanduíches
+  'lunch_dining': ['lanche', 'hamburguer', 'burger', 'cheeseburger', 'sanduíche', 'artesanal'],
+  'bakery_dining': ['pão', 'trigo', 'farinha', 'panko'],
+  
+  // Condimentos e Ingredientes Adicionais
+  'outdoor_grill': ['bacon'],
+  'eco': ['alface', 'picles', 'cebola'],
+  'local_pizza': ['mussarela', 'cheddar', 'queijo', 'gorgonzola', 'pizza', 'calzone'],
+  'egg_alt': ['ovo', 'omelete', 'mexido'],
+  'grass': ['tomate', 'hortelã'],
+  
+  // Molhos
+  'blender': ['molho', 'maionese', 'mostarda', 'ketchup', 'katchup', 'barbecue', 'baconese', 'blister', 'copinho'],
+  'science': ['páprica', 'corante', 'pasta'],
+
+  // Carnes
+  'set_meal': ['bife', 'carne', 'churrasco', 'picanha', 'steak', 'costela', 'porção', 'petisco'],
+  'kebab_dining': ['frango', 'nuggets', 'empanar', 'linguiça'],
+  
+  // Acompanhamentos e Opcionais
+  'fastfood': ['batata', 'frita', 'jenga', 'aneis'],
+  'grain': ['açúcar', 'açucar', 'canela', 'sal', 'parrilha'],
+  
+  // Sobremesas
+  'cake': ['brownie', 'doce', 'bolo'],
+  'icecream': ['sorvete', 'morango', 'tropical', 'céu azul', 'blue ice', 'caramelo', 'amora', 'baunilha'],
+  'cookie': ['marshmellow', 'balinha', 'bala', 'unicórnio', 'chocolate', 'glitter', 'avelã', 'nutella', 'churros'],
   
   // Bebidas
-  'liquor': ['bebida', 'destilado', 'whisky', 'vodka', 'gin', 'cachaca'],
-  'sports_bar': ['cerveja', 'chope', 'chopp', 'artesanal', 'breja', 'pilsen'],
-  'wine_bar': ['vinho', 'tinto', 'branco', 'rose', 'adega'],
-  'local_cafe': ['café', 'espresso', 'cappuccino', 'quente', 'chá'],
-  'local_drink': ['suco', 'refrigerante', 'refri', 'água', 'tônica', 'h2o', 'copo'],
+  'local_drink': ['coca', 'guaraná', 'sprite', 'schweppes', 'fanta', 'refrigerante', 'suco', 'água', 'bebida'],
+  'bolt': ['monster', 'energético'],
+  'sports_bar': ['cerveja', 'latão', 'chopp', 'breja'],
+  'ac_unit': ['gelo'],
+  'lemon': ['limão'],
+  'water_drop': ['polpa', 'leite'],
+  'emoji_food_beverage': ['café', 'chá', 'quente'],
+
+  // Embalagens e Delivery
+  'takeout_dining': ['sacola', 'delivery', 'sachê'],
+  'receipt_long': ['bobina', 'impressora', 'nota', 'cupom', 'papel', 'toalha', 'guardanapo', 'insulfilme', 'insufilme'],
   
-  // Operações & Delivery
-  'delivery_dining': ['delivery', 'entrega', 'motoboy', 'ifood', 'pedido'],
-  'shopping_cart': ['compra', 'mercado', 'fornecedor', 'reposição'],
-  'cleaning_services': ['limpeza', 'higiene', 'detergente', 'sabão', 'manutenção'],
+  // Cozinha e Limpeza
+  'propane': ['gás', 'maçarico'],
+  'sanitizer': ['desinfetante', 'detergente', 'desengordurante', 'sapólio', 'álcool', 'limpeza'],
+  'cleaning_bucket': ['bucha', 'esponja', 'palha', 'aço'],
+  'delete': ['saco', 'lixo', 'lixeira'],
+  'flatware': ['espátula', 'talher', 'faca', 'colher'],
+  'hardware': ['palito', 'dente'],
+  
+  // Banheiro
+  'wc': ['banheiro', 'higiênico', 'higienico', 'absorvente'],
+  'wash': ['sabão', 'sabonete', 'lenço', 'umidecido', 'fio dental'],
+  'spa': ['desodorante', 'aromatizante', 'bom ar'],
+
+  // Outros e Setores
   'inventory': ['geral', 'almoxarifado', 'depósito'],
   'group': ['cliente', 'mesa', 'atendimento', 'staff'],
   'payments': ['caixa', 'pagamento', 'financeiro', 'venda', 'vaturamento'],
+  'kitchen': ['cozinha', 'geladeira', 'fogão', 'chapa'],
 };
+
+export const availableIcons = Object.keys(iconMap);
 
 export function getSmartIcon(text: string): string {
   const lowerText = text.toLowerCase().trim();
