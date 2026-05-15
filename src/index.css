@@ -89,4 +89,9 @@
   font-style: normal;
   display: inline-block;
   line-height: 1;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
 }

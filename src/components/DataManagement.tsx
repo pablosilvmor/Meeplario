@@ -58,25 +58,35 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                className="bg-surface border border-outline-variant text-on-surface px-4 py-3 rounded-lg w-full mb-4 focus:outline-primary"
                autoFocus
              />
-             <div className="overflow-y-auto grid grid-cols-6 sm:grid-cols-8 gap-2 styled-scrollbar pr-2 flex-1 min-h-0 bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/30">
-               {filteredIcons.map(icon => (
-                 <button
-                   key={icon}
-                   onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
-                   className={`flex items-center justify-center aspect-square p-0 rounded-lg transition-all border relative overflow-hidden group/icon ${value === icon ? 'bg-primary-container text-on-primary-container border-primary shadow-lg scale-105 z-10' : 'border-transparent text-on-surface hover:border-outline-variant hover:bg-surface-container-high'}`}
-                   title={icon}
-                 >
-                   <span className="material-symbols-outlined select-none text-[24px] leading-none pointer-events-none">
-                     {icon}
-                   </span>
-                 </button>
-               ))}
-               {filteredIcons.length === 0 && (
-                 <div className="col-span-full py-8 text-center text-on-surface-variant text-sm">
-                   Nenhum ícone encontrado.
-                 </div>
-               )}
-             </div>
+              <div className="overflow-y-auto grid grid-cols-5 sm:grid-cols-8 gap-3 styled-scrollbar pr-2 flex-1 min-h-0 bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/30">
+                {filteredIcons.map(icon => (
+                  <button
+                    key={icon}
+                    type="button"
+                    onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
+                    className={`flex items-center justify-center aspect-square p-0 rounded-xl transition-all border relative overflow-hidden group/icon ${value === icon ? 'bg-primary-container text-on-primary-container border-primary shadow-lg scale-105 z-10' : 'border-outline-variant/20 text-on-surface-variant hover:border-primary hover:text-primary hover:bg-surface-container-high'}`}
+                    title={icon}
+                  >
+                    <span 
+                      className="material-symbols-outlined select-none text-[24px] leading-none pointer-events-none block whitespace-nowrap overflow-hidden"
+                      style={{ width: '24px', height: '24px' }}
+                    >
+                      {icon}
+                    </span>
+                    {value === icon && (
+                      <div className="absolute top-0 right-0 p-0.5">
+                        <div className="w-2 h-2 rounded-full bg-white shadow-sm" />
+                      </div>
+                    )}
+                  </button>
+                ))}
+                {filteredIcons.length === 0 && (
+                  <div className="col-span-full py-12 text-center">
+                    <span className="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-2">search_off</span>
+                    <p className="text-on-surface-variant text-sm">Nenhum ícone encontrado para "{search}"</p>
+                  </div>
+                )}
+              </div>
           </div>
         </div>
       )}
@@ -449,7 +459,7 @@ export function DataManagement() {
             <input
               value={newSectorDesc}
               onChange={(e) => setNewSectorDesc(e.target.value)}
-              placeholder="Descrição"
+              placeholder="Ex: Gestão de insumos para grelhados e prensados"
               className="bg-surface-container-low border border-outline-variant/30 text-on-surface rounded-lg px-4 py-2 font-sans text-sm focus:outline-none focus:border-primary-container"
             />
             <button
