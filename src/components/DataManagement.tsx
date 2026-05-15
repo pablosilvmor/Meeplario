@@ -58,32 +58,39 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                className="bg-surface border border-outline-variant text-on-surface px-4 py-3 rounded-lg w-full mb-4 focus:outline-primary"
                autoFocus
              />
-              <div className="overflow-y-auto grid grid-cols-5 sm:grid-cols-8 gap-3 styled-scrollbar pr-2 flex-1 min-h-0 bg-surface-container-lowest p-4 rounded-xl border border-outline-variant/30">
+              <div className="overflow-y-auto grid grid-cols-4 sm:grid-cols-6 gap-4 styled-scrollbar pr-2 flex-1 min-h-[400px] bg-black/60 p-6 rounded-2xl border border-outline-variant/10">
                 {filteredIcons.map(icon => (
-                  <button
+                  <motion.button
                     key={icon}
                     type="button"
+                    whileHover={{ scale: 1.05, backgroundColor: 'var(--color-surface-container-highest)' }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
-                    className={`flex items-center justify-center aspect-square p-0 rounded-xl transition-all border relative overflow-hidden group/icon ${value === icon ? 'bg-primary-container text-on-primary-container border-primary shadow-lg scale-105 z-10' : 'border-outline-variant/20 text-on-surface-variant hover:border-primary hover:text-primary hover:bg-surface-container-high'}`}
+                    className={`flex items-center justify-center p-4 rounded-xl transition-all border relative group/icon ${value === icon ? 'bg-primary text-on-primary border-primary shadow-lg z-10' : 'bg-surface-container-high/30 border-outline-variant/10 text-on-surface hover:border-primary/50'}`}
                     title={icon}
                   >
-                    <span 
-                      className="material-symbols-outlined select-none text-[24px] leading-none pointer-events-none block whitespace-nowrap overflow-hidden"
-                      style={{ width: '24px', height: '24px' }}
-                    >
+                    <span className="material-symbols-outlined text-3xl leading-none flex items-center justify-center pointer-events-none">
                       {icon}
                     </span>
                     {value === icon && (
-                      <div className="absolute top-0 right-0 p-0.5">
-                        <div className="w-2 h-2 rounded-full bg-white shadow-sm" />
-                      </div>
+                      <motion.div 
+                        layoutId="active-check"
+                        className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-on-primary flex items-center justify-center shadow-md z-20"
+                      >
+                         <span className="material-symbols-outlined text-[14px] text-primary font-bold">check</span>
+                      </motion.div>
                     )}
-                  </button>
+                  </motion.button>
                 ))}
                 {filteredIcons.length === 0 && (
-                  <div className="col-span-full py-12 text-center">
-                    <span className="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-2">search_off</span>
-                    <p className="text-on-surface-variant text-sm">Nenhum ícone encontrado para "{search}"</p>
+                  <div className="col-span-full py-20 text-center flex flex-col items-center gap-4">
+                    <div className="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant/20">
+                      <span className="material-symbols-outlined text-4xl text-on-surface-variant/30">search_off</span>
+                    </div>
+                    <div>
+                      <p className="text-on-surface font-medium">Nenhum ícone encontrado</p>
+                      <p className="text-on-surface-variant text-xs mt-1">Tente pesquisar por outros termos</p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -462,6 +469,16 @@ export function DataManagement() {
               placeholder="Ex: Gestão de insumos para grelhados e prensados"
               className="bg-surface-container-low border border-outline-variant/30 text-on-surface rounded-lg px-4 py-2 font-sans text-sm focus:outline-none focus:border-primary-container"
             />
+            {newSectorName && (
+              <p className="text-[10px] text-primary/70 font-mono mt-1 px-1">
+                {newSectorName.toUpperCase() === 'CHAPA' && "Sugestão: Especializado em insumos para preparos quentes e montagens na chapa."}
+                {newSectorName.toUpperCase() === 'MOLHOS' && "Sugestão: Reservado para condimentos, bases líquidas e emulsões artesanais."}
+                {newSectorName.toUpperCase().includes('ACOMPANHAMENTO') && "Sugestão: Gestão de acompanhamentos fritos, guarnições e petiscos."}
+                {newSectorName.toUpperCase().includes('SOBREMESA') && "Sugestão: Área dedicada a ingredientes para doces e finalizações açucaradas."}
+                {newSectorName.toUpperCase().includes('BEBIDA') && "Sugestão: Controle logístico de estoque para latas, garrafas e sucos."}
+                {newSectorName.toUpperCase().includes('LIMPEZA') && "Sugestão: Produtos químicos e materiais para higienização do ambiente."}
+              </p>
+            )}
             <button
               onClick={handleAddSector}
               className="bg-primary-container text-on-primary-container font-bold py-2 rounded-lg font-mono text-xs uppercase hover:brightness-110"
