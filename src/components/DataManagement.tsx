@@ -58,7 +58,7 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                className="bg-surface border border-outline-variant text-on-surface px-4 py-3 rounded-lg w-full mb-4 focus:outline-primary"
                autoFocus
              />
-              <div className="overflow-y-auto grid grid-cols-4 sm:grid-cols-6 gap-4 styled-scrollbar pr-2 flex-1 min-h-[400px] bg-black/60 p-6 rounded-2xl border border-outline-variant/10">
+              <div className="overflow-y-auto grid grid-cols-4 sm:grid-cols-6 gap-4 styled-scrollbar pr-2 flex-1 min-h-[400px] bg-black/60 p-6 rounded-2xl border border-outline-variant/10 content-start">
                 {filteredIcons.map(icon => (
                   <motion.button
                     key={icon}
@@ -66,7 +66,7 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                     whileHover={{ scale: 1.05, backgroundColor: 'var(--color-surface-container-highest)' }}
                     whileTap={{ scale: 0.95 }}
                     onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
-                    className={`flex items-center justify-center p-4 rounded-xl transition-all border relative group/icon ${value === icon ? 'bg-primary text-on-primary border-primary shadow-lg z-10' : 'bg-surface-container-high/30 border-outline-variant/10 text-on-surface hover:border-primary/50'}`}
+                    className={`flex items-center justify-center p-0 aspect-square rounded-xl transition-all border relative group/icon ${value === icon ? 'bg-primary text-on-primary border-primary shadow-lg z-10' : 'bg-surface-container-high/30 border-outline-variant/10 text-on-surface hover:border-primary/50'}`}
                     title={icon}
                   >
                     <span className="material-symbols-outlined text-3xl leading-none flex items-center justify-center pointer-events-none">

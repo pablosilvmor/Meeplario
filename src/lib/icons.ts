@@ -19,28 +19,31 @@
   'science': ['paprica', 'corante', 'pasta', 'essencia', 'quimica', 'aditivo'],
   'grain': ['acucar', 'canela', 'sal', 'parrilha', 'pimenta', 'oregano', 'tempero', 'arroz', 'feijao', 'grao', 'semente'],
   
-  // Carnes
-  'set_meal': ['bife', 'carne', 'churrasco', 'picanha', 'steak', 'costela', 'porcao', 'petisco', 'alcatra', 'file', 'boi', 'suino', 'porco'],
-  'kebab_dining': ['frango', 'nuggets', 'empanar', 'espeto', 'espetinho', 'ave', 'peito', 'coxa', 'asa'],
-  'set_meal': ['peixe', 'camarao', 'frutos do mar', 'sushi', 'temaki', 'atum', 'salmao'], // Overwrites with a larger set or use another icon
+  // Carnes e Proteínas
+  'set_meal': ['bife', 'carne', 'churrasco', 'picanha', 'steak', 'costela', 'porcao', 'petisco', 'alcatra', 'file', 'boi', 'suino', 'porco', 'peixe', 'camarao', 'frutos do mar', 'sushi', 'temaki', 'atum', 'salmao'],
+  'kebab_dining': ['frango', 'nuggets', 'empanar', 'espeto', 'espetinho', 'ave', 'peito', 'coxa', 'asa', 'linguica', 'salsicha', 'tender'],
+  'egg_alt': ['ovo', 'omelete', 'mexido', 'codorna'],
   
   // Acompanhamentos e Opcionais
-  'fastfood': ['batata', 'frita', 'jenga', 'aneis', 'fast food', 'salgado', 'coxinha', 'kibe', 'pastel'],
+  'fastfood': ['batata', 'frita', 'jenga', 'aneis', 'fast food', 'salgado', 'coxinha', 'kibe', 'pastel', 'hot-dog', 'hot dog', 'cachorro quente'],
+  'local_pizza': ['mussarela', 'cheddar', 'queijo', 'gorgonzola', 'pizza', 'calzone', 'catupiry', 'provolone', 'margarita', 'pepperoni'],
+  'ramen_dining': ['macarrao', 'pasta', 'espaguete', 'yakisoba', 'miojo'],
   
   // Sobremesas e Doces
-  'cake': ['brownie', 'doce', 'bolo', 'torta', 'fatia', 'pudim'],
-  'icecream': ['sorvete', 'morango', 'tropical', 'ceu azul', 'blue ice', 'caramelo', 'amora', 'baunilha', 'picole', 'gelato', 'acai'],
-  'cookie': ['marshmellow', 'balinha', 'bala', 'unicornio', 'chocolate', 'glitter', 'avela', 'nutella', 'churros', 'bolacha', 'biscoito'],
+  'cake': ['brownie', 'doce', 'bolo', 'torta', 'fatia', 'pudim', 'cupcake', 'confeitaria'],
+  'icecream': ['sorvete', 'morango', 'tropical', 'ceu azul', 'blue ice', 'caramelo', 'amora', 'baunilha', 'picole', 'gelato', 'acai', 'casquinha', 'shake'],
+  'cookie': ['marshmellow', 'balinha', 'bala', 'unicornio', 'chocolate', 'glitter', 'avela', 'nutella', 'churros', 'bolacha', 'biscoito', 'donut', 'rosquinha', 'bombom'],
   
   // Bebidas
-  'local_drink': ['coca', 'guarana', 'sprite', 'schweppes', 'fanta', 'refrigerante', 'suco', 'agua', 'bebida', 'pepsi', 'kuat'],
+  'local_drink': ['coca', 'guarana', 'sprite', 'schweppes', 'fanta', 'refrigerante', 'suco', 'agua', 'bebida', 'pepsi', 'kuat', 'garrafa', 'lata'],
   'bolt': ['monster', 'energetico', 'red bull', 'bally'],
-  'sports_bar': ['cerveja', 'latao', 'chopp', 'breja', 'heineken', 'brahma', 'skol', 'amstel', 'vodka', 'gin', 'bebida alcoolica'],
+  'sports_bar': ['cerveja', 'latao', 'chopp', 'breja', 'heineken', 'brahma', 'skol', 'amstel', 'vodka', 'gin', 'bebida alcoolica', 'tulipa'],
   'wine_bar': ['vinho', 'taca', 'champagne', 'espumante'],
-  'liquor': ['whisky', 'licor', 'cachaça', 'pinga', 'destilado', 'tequila', 'rum'],
+  'liquor': ['whisky', 'licor', 'cachaça', 'pinga', 'destilado', 'tequila', 'rum', 'combo'],
   'ac_unit': ['gelo', 'congelado'],
-  'water_drop': ['polpa', 'leite', 'creme de leite', 'leite condensado', 'gota', 'liquido', 'oléo', 'azeite', 'shoyu'],
-  'emoji_food_beverage': ['cafe', 'cha', 'quente', 'capuccino', 'mocha', 'expresso'],
+  'water_drop': ['polpa', 'leite', 'creme de leite', 'leite condensado', 'gota', 'liquido', 'oléo', 'azeite', 'shoyu', 'mel'],
+  'emoji_food_beverage': ['cafe', 'cha', 'quente', 'capuccino', 'mocha', 'expresso', 'bule', 'caneca'],
+  'coffee': ['cafe', 'latte', 'expresso'],
   
   // Embalagens e Delivery
   'takeout_dining': ['sacola', 'delivery', 'sache', 'embalagem', 'marmita', 'quentinha', 'caixa', 'papelao'],
@@ -48,12 +51,13 @@
   
   // Equipamentos, Cozinha e Manutenção
   'kitchen': ['cozinha', 'geladeira', 'fogao', 'chapa', 'freezer', 'refrigerador', 'forno'],
-  'blender': ['liquidificador', 'batedeira', 'processador', 'mixer'],
+  'blender': ['liquidificador', 'batedeira', 'processador', 'mixer', 'fouet', 'bater'],
   'coffee_maker': ['cafeteira', 'maquina de cafe', 'maquina de expresso'],
   'microwave': ['microondas', 'micro-ondas'],
   'propane': ['gas', 'macarico', 'botijao', 'cilindro'],
-  'flatware': ['espatula', 'talher', 'faca', 'colher', 'garfo', 'concha', 'pegador'],
-  'skillet': ['frigideira', 'panela', 'cacarola', 'tacho'],
+  'flatware': ['espatula', 'talher', 'faca', 'colher', 'garfo', 'concha', 'pegador', 'tabua', 'cutelo'],
+  'skillet': ['frigideira', 'panela', 'cacarola', 'tacho', 'escorredor', 'bowl', 'tigela'],
+  'outdoor_grill': ['bacon', 'calabresa', 'grelhado', 'churrasco', 'linguica', 'brasa', 'grelha'],
   
   // Limpeza e Higiene
   'sanitizer': ['desinfetante', 'detergente', 'desengordurante', 'sapolio', 'alcool', 'limpeza', 'veja', 'multiuso', 'cloro', 'agua sanitaria', 'candida'],
@@ -91,8 +95,7 @@ export const availableIcons = Array.from(new Set([
   'ice_cream', 'blender', 'deck', 'patio', 'emoji_food_beverage', 'emoji_nature',
   'free_breakfast', 'room_service', 'nightlife', 'sports_bar', 'skillet',
   'grocery_store', 'store', 'storefront', 'shopping_bag', 'shopping_cart',
-  
-  // Kitchen & Appliances
+  'nutrition', 'cooking', 'pot_holder', 'kettle', 'toaster', 'taco', 'burrito',
   'kitchen', 'propane', 'hardware', 'fire_extinguisher', 'local_laundry_service',
   'wash', 'sanitizer', 'cleaning_bucket', 'sanitizer', 'ac_unit', 'thermostat',
 
