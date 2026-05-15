@@ -591,19 +591,9 @@ function ShoppingCard({
     <div className="group relative glass-panel border border-error/40 p-5 rounded-xl transition-all hover:border-error shadow-[0_0_15px_rgba(147,0,10,0.05)]">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="flex items-center gap-4 lg:w-1/3">
-          <div className="w-16 h-16 rounded-lg bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center overflow-hidden">
-            <span className="material-symbols-outlined text-3xl opacity-60 text-primary">
-              {item.name.toLowerCase().includes("batata")
-                ? "fries"
-                : item.name.toLowerCase().includes("onions")
-                  ? "lens"
-                  : item.name.toLowerCase().includes("nuggets")
-                    ? "dinner_dining"
-                    : item.name.toLowerCase().includes("gelo")
-                      ? "ac_unit"
-                      : item.name.toLowerCase().includes("cola")
-                        ? "local_drink"
-                        : "inventory"}
+          <div className="w-16 h-16 rounded-lg bg-surface-container-highest border border-outline-variant/30 flex items-center justify-center relative overflow-hidden">
+            <span className="material-symbols-outlined text-3xl opacity-60 text-primary select-none pointer-events-none">
+              {item.icon || 'inventory'}
             </span>
           </div>
           <div>

@@ -63,10 +63,12 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                  <button
                    key={icon}
                    onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
-                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border ${value === icon ? 'bg-primary-container text-on-primary-container border-primary shadow-md' : 'border-transparent text-on-surface hover:text-primary hover:bg-surface-container-high'}`}
+                   className={`flex items-center justify-center aspect-square p-0 rounded-lg transition-all border relative overflow-hidden group/icon ${value === icon ? 'bg-primary-container text-on-primary-container border-primary shadow-lg scale-105 z-10' : 'border-transparent text-on-surface hover:border-outline-variant hover:bg-surface-container-high'}`}
                    title={icon}
                  >
-                   <span className="material-symbols-outlined text-[24px] mb-1">{icon}</span>
+                   <span className="material-symbols-outlined select-none text-[24px] leading-none pointer-events-none">
+                     {icon}
+                   </span>
                  </button>
                ))}
                {filteredIcons.length === 0 && (

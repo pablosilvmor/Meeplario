@@ -271,7 +271,7 @@ function SectorCard({
     >
       <div className="flex justify-between items-start z-10">
         <div
-          className={`p-3 rounded-lg border transition-colors overflow-hidden ${
+          className={`p-3 rounded-lg border transition-colors relative overflow-hidden flex items-center justify-center ${
             isLocked
               ? "bg-surface-container-highest border-outline-variant/30 text-on-surface-variant"
               : urgent
@@ -280,8 +280,9 @@ function SectorCard({
                   ? "bg-surface-container-highest border-primary-container/30 text-primary-container"
                   : "bg-surface-container-highest border-outline-variant/30 text-primary group-hover:text-primary-container"
           }`}
+          style={{ width: '60px', height: '60px' }}
         >
-          <span className="material-symbols-outlined text-3xl overflow-hidden block text-center flex-shrink-0" style={{ lineHeight: '36px' }}>
+          <span className="material-symbols-outlined text-3xl select-none pointer-events-none block" style={{ lineHeight: '1' }}>
             {isLocked ? "lock" : ((icon && availableIcons.includes(icon)) ? icon : 'category')}
           </span>
         </div>

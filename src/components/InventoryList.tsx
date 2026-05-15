@@ -518,8 +518,8 @@ function ItemCard({
     >
       <div className="flex justify-between items-start z-10">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 flex-shrink-0 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner overflow-hidden">
-            <span className="material-symbols-outlined text-[18px]">
+          <div className="w-8 h-8 flex-shrink-0 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner relative overflow-hidden">
+            <span className="material-symbols-outlined text-[18px] select-none pointer-events-none">
                {(item.icon && availableIcons.includes(item.icon)) ? item.icon : 'inventory_2'}
             </span>
           </div>
