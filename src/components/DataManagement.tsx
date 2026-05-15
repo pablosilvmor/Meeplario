@@ -63,10 +63,15 @@ const IconPicker = ({ value, onChange }: { value: string, onChange: (v: string) 
                  <button
                    key={icon}
                    onClick={(e) => { e.preventDefault(); onChange(icon); setOpen(false); setSearch(""); }}
-                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border ${value === icon ? 'bg-primary-container text-primary-container border-primary shadow-md' : 'border-transparent text-on-surface hover:text-primary hover:bg-surface-container-high'}`}
+                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border overflow-hidden ${value === icon ? 'bg-primary-container text-primary-container border-primary shadow-md' : 'border-transparent text-on-surface hover:text-primary hover:bg-surface-container-high'}`}
                    title={icon}
                  >
-                   <span className="material-symbols-outlined text-[24px] mb-1">{icon}</span>
+                   <span 
+                     className="material-symbols-outlined text-[24px] mb-1 block overflow-hidden text-center" 
+                     style={{ width: '24px', height: '24px', lineHeight: '24px'}}
+                   >
+                     {icon}
+                   </span>
                  </button>
                ))}
                {filteredIcons.length === 0 && (
@@ -511,7 +516,9 @@ export function DataManagement() {
                     </div>
                     <div className="flex items-center gap-3 relative z-10">
                       <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 overflow-hidden">
-                        <span className="material-symbols-outlined text-[18px]">{s.icon || 'category'}</span>
+                        <span className="material-symbols-outlined text-[18px]">
+                          {(s.icon && availableIcons.includes(s.icon)) ? s.icon : 'category'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -607,7 +614,7 @@ export function DataManagement() {
             </div>
           </div>
 
-          <div className="mt-6 space-y-2 max-h-[300px] overflow-y-auto pr-2">
+          <div className="mt-6 space-y-2">
             <div className="flex flex-col gap-2 mb-3">
               <h4 className="font-mono text-xs text-on-surface-variant uppercase tracking-widest">
                 Estoque Geral
@@ -668,7 +675,9 @@ export function DataManagement() {
                    <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3 truncate flex-1 relative z-10">
                       <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-on-surface-variant border border-outline-variant/20 flex-shrink-0 overflow-hidden">
-                        <span className="material-symbols-outlined text-[16px]">{item.icon || 'inventory_2'}</span>
+                        <span className="material-symbols-outlined text-[16px]">
+                          {(item.icon && availableIcons.includes(item.icon)) ? item.icon : 'inventory_2'}
+                        </span>
                       </div>
                       <div className="truncate">
                         <p className="font-bold text-on-surface font-sans text-sm truncate pr-2">

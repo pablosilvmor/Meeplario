@@ -656,9 +656,9 @@ function ItemCard({
       </AnimatePresence>
 
       {isCritical && (
-        <div className="absolute -top-1 -right-1 bg-error p-1 rounded-full border-2 border-surface shadow-xl">
+        <div className="absolute -top-1 -right-1 bg-error p-1 rounded-full border-2 border-surface shadow-xl pointer-events-none z-20">
           <span
-            className="material-symbols-outlined text-white text-xs font-bold"
+            className="material-symbols-outlined text-white text-xs font-bold block"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             warning

@@ -4,6 +4,7 @@ import { Sector, CustomSector } from "../types";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import { availableIcons } from "../lib/icons";
 
 interface SectorDashboardProps {
   onSectorSelect: (sector: Sector) => void;
@@ -121,7 +122,7 @@ export function SectorDashboard({
                  }) || [];
                  
                  // Sort alphabetically by name
-                 itemsList.sort((a, b) => a.name.localeCompare(b.name));
+                 itemsList.sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
 
                  // Group by sector
                  const groupedItems: Record<string, any[]> = {};
@@ -280,8 +281,8 @@ function SectorCard({
                   : "bg-surface-container-highest border-outline-variant/30 text-primary group-hover:text-primary-container"
           }`}
         >
-          <span className="material-symbols-outlined text-3xl">
-            {isLocked ? "lock" : icon}
+          <span className="material-symbols-outlined text-3xl overflow-hidden block text-center flex-shrink-0" style={{ lineHeight: '36px' }}>
+            {isLocked ? "lock" : ((icon && availableIcons.includes(icon)) ? icon : 'category')}
           </span>
         </div>
         <span className="font-mono text-[10px] bg-surface-container-lowest px-2 py-1 rounded text-on-surface-variant border border-outline-variant/20 tracking-wider">
