@@ -176,7 +176,7 @@ export function SectorDashboard({
                    }
                  });
 
-                 doc.save(`estoque_${new Date().toISOString().split('T')[0]}.pdf`);
+                 doc.save(`estoque_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.pdf`);
                }}
                className="bg-surface-container-high border border-outline-variant/30 px-4 py-2 rounded-xl flex items-center justify-center text-primary hover:bg-surface-container-highest transition-colors flex-shrink-0"
                title="Exportar em PDF"

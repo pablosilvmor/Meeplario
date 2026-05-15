@@ -38,7 +38,6 @@ const iconMap: Record<string, string[]> = {
   'bolt': ['monster', 'energético'],
   'sports_bar': ['cerveja', 'latão', 'chopp', 'breja'],
   'ac_unit': ['gelo'],
-  'lemon': ['limão'],
   'water_drop': ['polpa', 'leite'],
   'emoji_food_beverage': ['café', 'chá', 'quente'],
 
@@ -61,6 +60,7 @@ const iconMap: Record<string, string[]> = {
 
   // Outros e Setores
   'inventory': ['geral', 'almoxarifado', 'depósito'],
+  'room_service': ['serviço', 'lanche', 'quarto'],
   'group': ['cliente', 'mesa', 'atendimento', 'staff'],
   'payments': ['caixa', 'pagamento', 'financeiro', 'venda', 'vaturamento'],
   'kitchen': ['cozinha', 'geladeira', 'fogão', 'chapa'],

@@ -15,6 +15,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../context/AuthContext";
 import { Item, Sector, CustomSector } from "../types";
+import { availableIcons } from "../lib/icons";
 import { motion, AnimatePresence } from "motion/react";
 import { StockUpdateModal } from "./StockUpdateModal";
 
@@ -243,10 +244,10 @@ export function InventoryList({ sector }: InventoryListProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span
-              className="material-symbols-outlined text-primary-container"
-              style={{ fontVariationSettings: "'FILL' 1" }}
+              className="material-symbols-outlined text-primary-container w-6 h-6 overflow-hidden select-none block text-center flex-shrink-0"
+              style={{ fontVariationSettings: "'FILL' 1", lineHeight: '24px' }}
             >
-              {customSector?.icon || getIcon(sector)}
+              {(customSector?.icon && availableIcons.includes(customSector?.icon)) ? customSector.icon : getIcon(sector)}
             </span>
             <span className="font-mono text-[10px] text-primary uppercase tracking-[0.3em]">
               Setor Ativo
@@ -513,10 +514,12 @@ function ItemCard({
       exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
       className="bg-surface-container-high border border-outline-variant/30 rounded-xl p-4 flex flex-col gap-4 relative group hover:border-primary-container transition-colors"
     >
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start z-10">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner">
-            <span className="material-symbols-outlined text-[18px]">{item.icon || 'inventory_2'}</span>
+          <div className="w-8 h-8 flex-shrink-0 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner overflow-hidden">
+            <span className="material-symbols-outlined text-[18px]">
+               {(item.icon && availableIcons.includes(item.icon)) ? item.icon : 'inventory_2'}
+            </span>
           </div>
         </div>
         <button

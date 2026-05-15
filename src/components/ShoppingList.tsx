@@ -132,7 +132,7 @@ export function ShoppingList() {
     
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
-    doc.text(`Período: ${startDate} até ${endDate}`, 115, 42, { align: "center" });
+    doc.text(`Período: ${startDate.split('-').reverse().join('-')} até ${endDate.split('-').reverse().join('-')}`, 115, 42, { align: "center" });
 
     // Table
     const tableRows = itemsToReport.map((item, index) => [
@@ -166,7 +166,7 @@ export function ShoppingList() {
         doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.width - 25, doc.internal.pageSize.height - 10, { align: "right" });
     }
 
-    doc.save(`relatorio-compras-${new Date().toISOString().split('T')[0]}.pdf`);
+    doc.save(`relatorio-compras-${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.pdf`);
   };
 
   const handleReplenish = async () => {
