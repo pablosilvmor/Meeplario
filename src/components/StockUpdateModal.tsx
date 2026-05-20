@@ -43,6 +43,7 @@ export function StockUpdateModal({ item, onClose }: StockUpdateModalProps) {
           sectorId: item.sectorId,
           type: delta > 0 ? "increase" : "decrease",
           amount: Math.abs(delta),
+          unit: formData.unit || "un",
           timestamp: serverTimestamp(),
         });
       }

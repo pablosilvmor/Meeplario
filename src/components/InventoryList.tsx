@@ -81,6 +81,7 @@ export function InventoryList({ sector }: InventoryListProps) {
       sectorId: item.sectorId,
       type: delta > 0 ? "increase" : "decrease",
       amount: Math.abs(delta),
+      unit: item.unit || "un",
       timestamp: serverTimestamp(),
     });
   };
@@ -104,6 +105,7 @@ export function InventoryList({ sector }: InventoryListProps) {
       sectorId: item.sectorId,
       type: delta > 0 ? "increase" : "decrease",
       amount: Math.abs(delta),
+      unit: item.unit || "un",
       timestamp: serverTimestamp(),
     });
   };
@@ -572,8 +574,8 @@ function ItemCard({
             setTempQuantity(String(localStock));
           }}
         >
-          <span className="font-mono text-[9px] text-on-surface-variant uppercase tracking-widest">
-            QTD
+          <span className="font-mono text-[9px] text-on-surface-variant uppercase tracking-widest max-w-[50px] truncate" title={item.unit || "QTD"}>
+            {item.unit || "QTD"}
           </span>
           <span
             className={`font-display text-3xl leading-none font-bold ${isCritical ? "text-error" : "text-primary-container"}`}
@@ -706,12 +708,14 @@ function ShiftFeed({ sector }: { sector: Sector }) {
                 </span>{" "}
                 {log.type === "increase" ? "adicionou" : "reduziu"}{" "}
                 <span className="font-bold">{log.itemName}</span> em{" "}
-                {log.amount}.
+                {log.amount}{log.unit ? ` ${log.unit}` : ""}.
               </p>
               <span className="font-mono text-[9px] text-on-surface-variant opacity-60 uppercase">
                 {log.timestamp
                   ?.toDate()
-                  .toLocaleTimeString([], {
+                  .toLocaleString("pt-BR", {
+                    day: "2-digit",
+                    month: "2-digit",
                     hour: "2-digit",
                     minute: "2-digit",
                   }) || "AGORA"}
