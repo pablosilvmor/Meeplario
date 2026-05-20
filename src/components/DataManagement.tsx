@@ -132,6 +132,7 @@ export function DataManagement() {
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [editItemName, setEditItemName] = useState("");
   const [editItemIcon, setEditItemIcon] = useState("");
+  const [editItemSectorId, setEditItemSectorId] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   // Undo state
@@ -328,17 +329,18 @@ export function DataManagement() {
   };
 
   const [isSavingItem, setIsSavingItem] = useState(false);
-  const handleSaveItem = async (id: string, sectorId: string) => {
-    if (!editItemName.trim()) return;
-    const item = items.find(i => i.id === id);
-    if (items.find((i) => i.name.toLowerCase() === editItemName.toLowerCase() && i.sectorId === sectorId && i.id !== id)) {
-      setErrorMsg(`Erro: Já existe um item com a descrição "${editItemName}" neste setor.`);
+  const handleSaveItem = async (id: string) => {
+    if (!editItemName.trim() || !editItemSectorId) return;
+    
+    if (items.find((i) => i.name.toLowerCase() === editItemName.toLowerCase() && i.sectorId === editItemSectorId && i.id !== id)) {
+      setErrorMsg(`Erro: Já existe um item com a descrição "${editItemName}" no setor selecionado.`);
       return;
     }
     setIsSavingItem(true);
     try {
       await updateDoc(doc(db, "items", id), { 
         name: editItemName,
+        sectorId: editItemSectorId,
         icon: editItemIcon.trim() || getSmartIcon(editItemName)
       });
       setEditingItemId(null);
@@ -678,7 +680,20 @@ export function DataManagement() {
                         placeholder="Nome do Item"
                         className="bg-surface border text-on-surface px-2 py-1 text-sm rounded w-full"
                      />
-                     <IconPicker value={editItemIcon} onChange={setEditItemIcon} />
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                       <select
+                         value={editItemSectorId}
+                         onChange={(e) => setEditItemSectorId(e.target.value)}
+                         className="bg-surface border border-outline-variant/30 text-on-surface px-2 py-1 text-sm rounded w-full"
+                       >
+                         {sectors.map((s) => (
+                           <option key={s.id} value={s.id}>
+                             {s.name}
+                           </option>
+                         ))}
+                       </select>
+                       <IconPicker value={editItemIcon} onChange={setEditItemIcon} />
+                     </div>
                      <div className="flex justify-end gap-3 mt-3 border-t border-outline-variant/10 pt-3">
                         <button 
                           disabled={isSavingItem}
@@ -689,7 +704,7 @@ export function DataManagement() {
                         </button>
                         <button 
                           disabled={isSavingItem}
-                          onClick={() => handleSaveItem(item.id, item.sectorId)} 
+                          onClick={() => handleSaveItem(item.id)} 
                           className="bg-primary-container text-on-primary-container text-[10px] font-bold font-mono uppercase tracking-widest px-4 py-1.5 rounded shadow-sm hover:brightness-110 active:scale-95 transition-all"
                         >
                           {isSavingItem ? "SALVANDO..." : "SALVAR"}
@@ -721,6 +736,7 @@ export function DataManagement() {
                           setEditingItemId(item.id);
                           setEditItemName(item.name);
                           setEditItemIcon(item.icon || "");
+                          setEditItemSectorId(item.sectorId);
                         }}
                         className="w-10 h-10 flex items-center justify-center text-primary hover:bg-primary/10 rounded-lg transition-colors border border-transparent hover:border-primary/20"
                         title="Editar Item"

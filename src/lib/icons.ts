@@ -8,25 +8,23 @@
   'bakery_dining': ['pao', 'trigo', 'farinha', 'panko', 'rosca', 'baguete', 'bisnaga', 'paozinho'],
   
   // Condimentos e Ingredientes Adicionais
-  'outdoor_grill': ['bacon', 'calabresa', 'grelhado', 'churrasco', 'linguica', 'brasa'],
+  'outdoor_grill': ['bacon', 'calabresa', 'grelhado', 'churrasco', 'linguica', 'brasa', 'grelha'],
   'eco': ['alface', 'picles', 'cebola', 'salada', 'rucula', 'cheiro verde', 'coentro', 'hortalica'],
   'grass': ['tomate', 'hortela', 'manjericao', 'erva', 'salsa', 'cebolinha', 'alecrim', 'vegetal', 'legume'],
   'local_pizza': ['mussarela', 'cheddar', 'queijo', 'gorgonzola', 'pizza', 'calzone', 'catupiry', 'provolone', 'margarita', 'pepperoni'],
   'egg_alt': ['ovo', 'omelete', 'mexido', 'codorna'],
   
   // Molhos e Temperos
-  'blender': ['molho', 'maionese', 'mostarda', 'ketchup', 'katchup', 'barbecue', 'baconese', 'blister', 'copinho'],
+  'blender': ['molho', 'maionese', 'mostarda', 'ketchup', 'katchup', 'barbecue', 'baconese', 'blister', 'copinho', 'liquidificador', 'batedeira', 'processador', 'mixer', 'fouet', 'bater'],
   'science': ['paprica', 'corante', 'pasta', 'essencia', 'quimica', 'aditivo'],
   'grain': ['acucar', 'canela', 'sal', 'parrilha', 'pimenta', 'oregano', 'tempero', 'arroz', 'feijao', 'grao', 'semente'],
   
   // Carnes e Proteínas
   'set_meal': ['bife', 'carne', 'churrasco', 'picanha', 'steak', 'costela', 'porcao', 'petisco', 'alcatra', 'file', 'boi', 'suino', 'porco', 'peixe', 'camarao', 'frutos do mar', 'sushi', 'temaki', 'atum', 'salmao'],
   'kebab_dining': ['frango', 'nuggets', 'empanar', 'espeto', 'espetinho', 'ave', 'peito', 'coxa', 'asa', 'linguica', 'salsicha', 'tender'],
-  'egg_alt': ['ovo', 'omelete', 'mexido', 'codorna'],
   
   // Acompanhamentos e Opcionais
   'fastfood': ['batata', 'frita', 'jenga', 'aneis', 'fast food', 'salgado', 'coxinha', 'kibe', 'pastel', 'hot-dog', 'hot dog', 'cachorro quente'],
-  'local_pizza': ['mussarela', 'cheddar', 'queijo', 'gorgonzola', 'pizza', 'calzone', 'catupiry', 'provolone', 'margarita', 'pepperoni'],
   'ramen_dining': ['macarrao', 'pasta', 'espaguete', 'yakisoba', 'miojo'],
   
   // Sobremesas e Doces
@@ -51,13 +49,11 @@
   
   // Equipamentos, Cozinha e Manutenção
   'kitchen': ['cozinha', 'geladeira', 'fogao', 'chapa', 'freezer', 'refrigerador', 'forno'],
-  'blender': ['liquidificador', 'batedeira', 'processador', 'mixer', 'fouet', 'bater'],
   'coffee_maker': ['cafeteira', 'maquina de cafe', 'maquina de expresso'],
   'microwave': ['microondas', 'micro-ondas'],
   'propane': ['gas', 'macarico', 'botijao', 'cilindro'],
   'flatware': ['espatula', 'talher', 'faca', 'colher', 'garfo', 'concha', 'pegador', 'tabua', 'cutelo'],
   'skillet': ['frigideira', 'panela', 'cacarola', 'tacho', 'escorredor', 'bowl', 'tigela'],
-  'outdoor_grill': ['bacon', 'calabresa', 'grelhado', 'churrasco', 'linguica', 'brasa', 'grelha'],
   
   // Limpeza e Higiene
   'sanitizer': ['desinfetante', 'detergente', 'desengordurante', 'sapolio', 'alcool', 'limpeza', 'veja', 'multiuso', 'cloro', 'agua sanitaria', 'candida'],
