@@ -121,8 +121,17 @@ export function SectorDashboard({
                    };
                  }) || [];
                  
-                 // Sort alphabetically by name
-                 itemsList.sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
+                 // Sort by order then alphabetically by name
+                 itemsList.sort((a: any, b: any) => {
+                   if (a.order !== undefined && b.order !== undefined) {
+                     if (a.order !== b.order) return a.order - b.order;
+                   } else if (a.order !== undefined) {
+                     return -1;
+                   } else if (b.order !== undefined) {
+                     return 1;
+                   }
+                   return (a.name || "").localeCompare(b.name || "");
+                 });
 
                  // Group by sector
                  const groupedItems: Record<string, any[]> = {};

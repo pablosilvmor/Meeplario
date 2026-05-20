@@ -10,6 +10,7 @@ import {
   doc,
   serverTimestamp,
   setDoc,
+  writeBatch,
 } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../lib/firebase";
@@ -111,7 +112,14 @@ export function DataManagement() {
     ) || []).sort((a, b) => a.name.localeCompare(b.name));
   const items =
     (itemsSnapshot?.docs.map((d) => ({ id: d.id, ...d.data() }) as Item) || [])
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
+      }
+      if (a.order !== undefined) return -1;
+      if (b.order !== undefined) return 1;
+      return a.name.localeCompare(b.name);
+    });
 
   const [newSectorName, setNewSectorName] = useState("");
   const [newSectorDesc, setNewSectorDesc] = useState("");
@@ -356,6 +364,44 @@ export function DataManagement() {
 
   const [isDeletingItem, setIsDeletingItem] = useState<string | null>(null);
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
+
+  const handleReorderItem = async (item: Item, direction: 'up' | 'down') => {
+    const sectorItems = items
+      .filter((i) => i.sectorId === item.sectorId)
+      .sort((a, b) => {
+        if (a.order !== undefined && b.order !== undefined) {
+          if (a.order !== b.order) return a.order - b.order;
+        } else if (a.order !== undefined) {
+          return -1;
+        } else if (b.order !== undefined) {
+          return 1;
+        }
+        return (a.name || "").localeCompare(b.name || "");
+      });
+
+    const currentIndex = sectorItems.findIndex((i) => i.id === item.id);
+    if (currentIndex === -1) return;
+    if (direction === 'up' && currentIndex === 0) return;
+    if (direction === 'down' && currentIndex === sectorItems.length - 1) return;
+
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+
+    try {
+      const batch = writeBatch(db);
+      sectorItems.forEach((secItem, idx) => {
+        let newOrder = idx;
+        if (idx === currentIndex) newOrder = targetIndex;
+        else if (idx === targetIndex) newOrder = currentIndex;
+        
+        batch.update(doc(db, "items", secItem.id), { order: newOrder });
+      });
+      await batch.commit();
+    } catch (e) {
+      console.error("Error reordering:", e);
+      setErrorMsg("Erro ao reordenar item.");
+    }
+  };
+
   const handleDeleteItem = async (id: string) => {
     const itemToDel = items.find(i => i.id === id);
     
@@ -409,7 +455,16 @@ export function DataManagement() {
   const filteredItems = items.filter(item => 
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
     item.sectorId && sectors.find(s => s.id === item.sectorId)
-  ).sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+  ).sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      if (a.order !== b.order) return a.order - b.order;
+    } else if (a.order !== undefined) {
+      return -1;
+    } else if (b.order !== undefined) {
+      return 1;
+    }
+    return (a.name || "").localeCompare(b.name || "");
+  });
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12 relative">
@@ -730,7 +785,21 @@ export function DataManagement() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <button
+                        onClick={() => handleReorderItem(item, 'up')}
+                        className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border border-transparent hover:border-primary/20"
+                        title="Mover para cima no setor"
+                      >
+                        <span className="material-symbols-outlined text-lg">arrow_upward</span>
+                      </button>
+                      <button
+                        onClick={() => handleReorderItem(item, 'down')}
+                        className="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-lg transition-colors border border-transparent hover:border-primary/20"
+                        title="Mover para baixo no setor"
+                      >
+                        <span className="material-symbols-outlined text-lg">arrow_downward</span>
+                      </button>
                       <button
                         onClick={() => {
                           setEditingItemId(item.id);

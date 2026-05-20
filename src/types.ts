@@ -15,6 +15,7 @@ export interface Item {
   minStock: number;
   idealStock: number;
   unit: string;
+  order?: number;
   icon?: string;
   packageType?: string;
   packageWeight?: number;

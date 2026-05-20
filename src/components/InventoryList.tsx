@@ -53,7 +53,16 @@ export function InventoryList({ sector }: InventoryListProps) {
 
   const items =
     value?.docs.map((d) => ({ id: d.id, ...d.data() }) as Item)
-      .sort((a, b) => a.name.localeCompare(b.name)) || [];
+      .sort((a, b) => {
+        if (a.order !== undefined && b.order !== undefined) {
+          if (a.order !== b.order) return a.order - b.order;
+        } else if (a.order !== undefined) {
+          return -1;
+        } else if (b.order !== undefined) {
+          return 1;
+        }
+        return a.name.localeCompare(b.name);
+      }) || [];
 
   const filteredItems = items.filter((i) =>
     i.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -108,6 +117,31 @@ export function InventoryList({ sector }: InventoryListProps) {
       unit: item.unit || "un",
       timestamp: serverTimestamp(),
     });
+  };
+
+  const handleReorderItem = async (item: Item, direction: 'up' | 'down') => {
+    // items should already be sorted properly
+    const currentIndex = items.findIndex((i) => i.id === item.id);
+    if (currentIndex === -1) return;
+    if (direction === 'up' && currentIndex === 0) return;
+    if (direction === 'down' && currentIndex === items.length - 1) return;
+
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+
+    try {
+      const { writeBatch } = await import("firebase/firestore");
+      const batch = writeBatch(db);
+      items.forEach((secItem, idx) => {
+        let newOrder = idx;
+        if (idx === currentIndex) newOrder = targetIndex;
+        else if (idx === targetIndex) newOrder = currentIndex;
+        
+        batch.update(doc(db, "items", secItem.id), { order: newOrder });
+      });
+      await batch.commit();
+    } catch (e) {
+      console.error("Error reordering:", e);
+    }
   };
 
   // Sector delete/edit modals
@@ -432,6 +466,7 @@ export function InventoryList({ sector }: InventoryListProps) {
               onUpdate={(delta) => handleUpdateStock(item, delta)}
               onSetQuantity={(q) => handleSetStockDirectly(item, q)}
               onEdit={() => setSelectedItem(item)}
+              onReorder={(direction) => handleReorderItem(item, direction)}
             />
           ))}
         </AnimatePresence>
@@ -454,11 +489,13 @@ function ItemCard({
   onUpdate,
   onSetQuantity,
   onEdit,
+  onReorder,
 }: {
   item: Item;
   onUpdate: (delta: number) => void;
   onSetQuantity: (q: number) => void;
   onEdit: () => void;
+  onReorder: (direction: 'up' | 'down') => void;
   key?: React.Key;
 }) {
   const [localStock, setLocalStock] = useState(item.currentStock);
@@ -519,19 +556,35 @@ function ItemCard({
       className="bg-surface-container-high border border-outline-variant/30 rounded-xl p-4 flex flex-col gap-4 relative group hover:border-primary-container transition-colors"
     >
       <div className="flex justify-between items-start z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 flex-shrink-0 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner relative overflow-hidden">
-            <span className="material-symbols-outlined text-[18px] select-none pointer-events-none">
-               {(item.icon && availableIcons.includes(item.icon)) ? item.icon : 'inventory_2'}
-            </span>
-          </div>
+        <div className="w-8 h-8 flex-shrink-0 rounded bg-surface-container-highest flex items-center justify-center text-primary-container border border-outline-variant/20 shadow-inner relative overflow-hidden">
+          <span className="material-symbols-outlined text-[18px] select-none pointer-events-none">
+             {(item.icon && availableIcons.includes(item.icon)) ? item.icon : 'inventory_2'}
+          </span>
         </div>
-        <button
-          onClick={onEdit}
-          className="text-on-surface-variant hover:text-primary transition-colors focus:outline-none"
-        >
-          <span className="material-symbols-outlined text-xl">edit_square</span>
-        </button>
+        
+        <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+          <button
+             onClick={() => onReorder('up')}
+             className="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+             title="Mover para esquerda/cima"
+          >
+             <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+          </button>
+          <button
+             onClick={() => onReorder('down')}
+             className="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+             title="Mover para direita/baixo"
+          >
+             <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+          </button>
+          <button
+            onClick={onEdit}
+            className="w-7 h-7 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors focus:outline-none"
+            title="Editar produto"
+          >
+            <span className="material-symbols-outlined text-xl">edit_square</span>
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-1">
