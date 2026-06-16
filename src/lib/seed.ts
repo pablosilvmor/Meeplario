@@ -22,18 +22,40 @@ const INITIAL_ITEMS: Partial<Item>[] = [
   { name: 'Soda Limão', sectorId: 'bebidas', currentStock: 0, minStock: 24, idealStock: 96, unit: 'un' }
 ];
 
-export async function seedItems() {
-  const querySnapshot = await getDocs(collection(db, 'items'));
-  if (!querySnapshot.empty) return;
+const INITIAL_SECTORS = [
+  { id: 'chapa', name: 'Chapa', description: 'Zona de processamento térmico', icon: 'local_fire_department' },
+  { id: 'porcoes', name: 'Porções', description: 'Área de fritura e preparo de porções', icon: 'tapas' },
+  { id: 'bebidas', name: 'Bebidas', description: 'Estoque refrigerado de bebidas', icon: 'water_drop' }
+];
 
+export async function seedItems() {
   const batch = writeBatch(db);
-  INITIAL_ITEMS.forEach((itemData) => {
-    const newDoc = doc(collection(db, 'items'));
-    batch.set(newDoc, {
-      ...itemData,
-      updatedAt: serverTimestamp(),
-      lastUpdatedBy: 'System'
+  let commitNeeded = false;
+
+  const querySnapshot = await getDocs(collection(db, 'items'));
+  if (querySnapshot.empty) {
+    INITIAL_ITEMS.forEach((itemData) => {
+      const newDoc = doc(collection(db, 'items'));
+      batch.set(newDoc, {
+        ...itemData,
+        updatedAt: serverTimestamp(),
+        lastUpdatedBy: 'System'
+      });
     });
-  });
-  await batch.commit();
+    commitNeeded = true;
+  }
+
+  const sectorsSnapshot = await getDocs(collection(db, 'sectors'));
+  if (sectorsSnapshot.empty) {
+    INITIAL_SECTORS.forEach((sectorData) => {
+      const { id, ...data } = sectorData;
+      const newDoc = doc(db, 'sectors', id);
+      batch.set(newDoc, data);
+    });
+    commitNeeded = true;
+  }
+
+  if (commitNeeded) {
+    await batch.commit();
+  }
 }

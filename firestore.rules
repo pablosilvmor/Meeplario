@@ -79,6 +79,9 @@ service cloud.firestore {
         (incoming().diff(existing()).affectedKeys().hasOnly(['currentStock', 'updatedAt', 'lastUpdatedBy']) &&
          incoming().currentStock is number && incoming().currentStock >= 0 &&
          incoming().updatedAt == request.time) ||
+        // Allow reordering
+        (incoming().diff(existing()).affectedKeys().hasOnly(['order']) &&
+         incoming().order is number) ||
         // Full update (Admin only)
         isAdmin()
       );
